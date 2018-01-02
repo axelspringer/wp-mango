@@ -70,7 +70,7 @@ final class Mango {
     public function register_nav_menu() {
       register_rest_route(
         self::$rest_namespace,
-        '/nav/menu/(?P<id>\d+)',
+        '/nav/menus/(?P<id>\d+)',
         array(
           'methods' => 'GET',
           'callback' => array( &$this, 'get_nav_menu' ),
