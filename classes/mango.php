@@ -8,11 +8,10 @@ final class Mango {
     static $settings_page;
     static $slug = 'mango';
     static $version;
-    static $rest_namespace = 'mango/v1'; //
+    static $rest_namespace = 'mango/v1';
 
     public $enabled = false;
-    public $menus = false;
-    public $locations = false;
+    public $nav = false;
 
     function __construct( $plugin_file_path, $version = null, $slug = null ) {
       if ( ! is_null( $slug ) ) {
@@ -28,8 +27,8 @@ final class Mango {
  
     function init( $plugin_file_path ) {
       self::$settings_page         = self::$slug;
-      $this->settings_title        = __( 'mango', self::$slug );
-      $this->settings_menu_title   = __( 'mango', self::$slug );
+      $this->settings_title        = __( 'Mango', self::$slug );
+      $this->settings_menu_title   = __( 'Mango', self::$slug );
     
       $settings = new Mango_Settings();
 
@@ -60,11 +59,9 @@ final class Mango {
     }
 
     public function rest_api_init() {
-      if ( $this->menus ) { // if menus should be enabled
+      if ( $this->menus ) { // if menus are enabled
         $this->register_nav_menu();
-      }
-
-      if ( $this->locations ) {
+        $this->register_nav_menu_items();
         $this->register_nav_location();
         $this->register_nav_locations();
       }
@@ -73,15 +70,31 @@ final class Mango {
     public function register_nav_menu() {
       register_rest_route(
         self::$rest_namespace,
-        '/nav/(?P<id>\d+)',
+        '/nav/menu/(?P<id>\d+)',
         array(
-            'methods' => 'GET',
-            'callback' => array( &$this, 'get_nav_menu' ),
-            'id' => array(
-              'validate_callback' => function($param, $request, $key) {
-                return is_numeric( $param );
-              }
-            )
+          'methods' => 'GET',
+          'callback' => array( &$this, 'get_nav_menu' ),
+          'id' => array(
+            'validate_callback' => function($param, $request, $key) {
+              return is_numeric( $param );
+            }
+          )
+        )
+      );
+    }
+
+    public function register_nav_menu_items() {
+      register_rest_route(
+        self::$rest_namespace,
+        '/nav/items/(?P<id>\d+)',
+        array(
+          'methods' => 'GET',
+          'callback' => array( &$this, 'get_nav_menu_items' ),
+          'id' => array(
+            'validate_callback' => function($param, $request, $key) {
+              return is_numeric( $param );
+            }
+          )
         )
       );
     }
@@ -89,7 +102,7 @@ final class Mango {
     public function register_nav_location() {
       register_rest_route(
         self::$rest_namespace,
-        '/locations/(?P<name>[a-zA-Z0-9\_]+)',
+        '/nav/locations/(?P<name>[a-zA-Z0-9\_]+)',
         array(
             'methods' => 'GET',
             'callback' => array( &$this, 'get_nav_menu_location' ),
@@ -105,7 +118,7 @@ final class Mango {
     public function register_nav_locations() {
       register_rest_route(
         self::$rest_namespace,
-        '/locations',
+        '/nav/locations',
         array(
             'methods' => 'GET',
             'callback' => array( &$this, 'get_nav_menu_locations' )
@@ -115,6 +128,10 @@ final class Mango {
 
     public function get_nav_menu_locations() {
       return get_nav_menu_locations();
+    }
+
+    public function get_nav_menu_items( $data ) {
+      return wp_get_nav_menu_items( $data['id'] );
     }
 
     public function get_nav_menu_location( $data ) {

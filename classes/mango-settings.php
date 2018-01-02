@@ -48,8 +48,8 @@ final class Mango_Settings{
     $resources = new Mango_Settings_Section( $args );
 
     $args = array(
-			'id'				    => 'mango_menus',
-			'title'				  => __( 'Menus' ),
+			'id'				    => 'mango_nav_menus',
+			'title'				  => __( 'Navigation Menus' ),
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_resources',
 			'description'	  => __( '' ),
@@ -57,17 +57,6 @@ final class Mango_Settings{
 			'option_group'	=> 'settings_page_mango_settings_page',
 		);
 		$menus = new Mango_Settings_Field( $args );
-
-		$args = array(
-			'id'				    => 'mango_locations',
-			'title'				  => __( 'Locations' ),
-			'page'				  => 'mango_settings_page',
-			'section'			  => 'mango_resources',
-			'description'	  => __( '' ),
-			'type'				  => 'checkbox', // text, textarea, password, checkbox
-			'option_group'	=> 'settings_page_mango_settings_page',
-		);
-		$locations = new Mango_Settings_Field( $args );
 
   }
 
