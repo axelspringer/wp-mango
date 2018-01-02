@@ -12,6 +12,7 @@ final class Mango {
 
     public $enabled = false;
     public $menus = false;
+    public $locations = false;
 
     function __construct( $plugin_file_path, $version = null, $slug = null ) {
       if ( ! is_null( $slug ) ) {
@@ -42,19 +43,12 @@ final class Mango {
       
       global $mango;
       $mango = $this;
-
-      // add_filter( 'upload_dir', array( &$this, 'filter_upload_dir' ) );
-      // add_filter( 'pre_option_uploads_use_yearmonth_folders', '__return_null' );
-      // // add_filter( 'plupload_init', array( &$this, 'plupload_init' ) );
-      // add_filter('wp_handle_upload ', 'custom_upload_filter' );
-      // add_filter( 'wp_handle_upload_prefilter', array( &$this, 'filter_upload_prefilter' ) );
-
-      // add_action( 'delete_attachment', array( &$this, 'delete_attachment' ) );
     }
 
     private function get_options() {
       $this->enabled = get_option( 'mango_enabled' );
       $this->menus = get_option( 'mango_menus' );
+      $this->locations = get_option( 'mango_locations' );
     }
 
     private function add_actions() {
@@ -68,6 +62,9 @@ final class Mango {
     public function rest_api_init() {
       if ( $this->menus ) { // if menus should be enabled
         $this->register_nav_menu();
+      }
+
+      if ( $this->locations ) {
         $this->register_nav_location();
         $this->register_nav_locations();
       }

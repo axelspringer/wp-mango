@@ -38,17 +38,6 @@ final class Mango_Settings{
 		);
 		$enabled = new Mango_Settings_Field( $args );
 
-		$args = array(
-			'id'				    => 'mango_namespace',
-			'title'				  => __( 'Namespace' ),
-			'page'				  => 'mango_settings_page',
-			'section'			  => 'mango_settings',
-			'description'	  => __( '' ),
-			'type'				  => 'string', // text, textarea, password, checkbox
-			'option_group'	=> 'settings_page_mango_settings_page',
-		);
-		$enabled = new Mango_Settings_Field( $args );
-
 		// resources
     $args = array(
       'id'			    => 'mango_resources',
@@ -68,6 +57,17 @@ final class Mango_Settings{
 			'option_group'	=> 'settings_page_mango_settings_page',
 		);
 		$menus = new Mango_Settings_Field( $args );
+
+		$args = array(
+			'id'				    => 'mango_locations',
+			'title'				  => __( 'Locations' ),
+			'page'				  => 'mango_settings_page',
+			'section'			  => 'mango_resources',
+			'description'	  => __( '' ),
+			'type'				  => 'checkbox', // text, textarea, password, checkbox
+			'option_group'	=> 'settings_page_mango_settings_page',
+		);
+		$locations = new Mango_Settings_Field( $args );
 
   }
 
