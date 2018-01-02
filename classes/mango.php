@@ -46,8 +46,7 @@ final class Mango {
 
     private function get_options() {
       $this->enabled = get_option( 'mango_enabled' );
-      $this->menus = get_option( 'mango_nav_menus' );
-      $this->locations = get_option( 'mango_locations' );
+      $this->nav = get_option( 'mango_nav' );
     }
 
     private function add_actions() {
@@ -59,7 +58,7 @@ final class Mango {
     }
 
     public function rest_api_init() {
-      if ( $this->menus ) { // if menus are enabled
+      if ( $this->nav ) { // if menus are enabled
         $this->register_nav_menu();
         $this->register_nav_menu_items();
         $this->register_nav_location();

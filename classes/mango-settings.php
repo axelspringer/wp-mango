@@ -48,7 +48,7 @@ final class Mango_Settings{
     $resources = new Mango_Settings_Section( $args );
 
     $args = array(
-			'id'				    => 'mango_nav_menus',
+			'id'				    => 'mango_nav',
 			'title'				  => __( 'Navigation Menus' ),
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_resources',
@@ -56,7 +56,7 @@ final class Mango_Settings{
 			'type'				  => 'checkbox', // text, textarea, password, checkbox
 			'option_group'	=> 'settings_page_mango_settings_page',
 		);
-		$menus = new Mango_Settings_Field( $args );
+		$nav = new Mango_Settings_Field( $args );
 
   }
 
