@@ -46,7 +46,7 @@ final class Mango {
 
     private function get_options() {
       $this->enabled = get_option( 'mango_enabled' );
-      $this->menus = get_option( 'mango_menus' );
+      $this->menus = get_option( 'mango_nav_menus' );
       $this->locations = get_option( 'mango_locations' );
     }
 
