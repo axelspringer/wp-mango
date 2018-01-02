@@ -1,0 +1,17 @@
+{
+    "name": "axelspringer/mango",
+    "type": "wordpress-plugin",
+    "homepage": "https://github.com/axelspringer/wp-mango",
+    "license": "Apache-2.0",
+    "description": "A companion WordPress plugin to support Mango.",
+    "keywords": [
+        "plugin",
+        "mango",
+        "wordpress",
+        "rest",
+        "api"
+    ],
+    "require": {
+        "composer/installers": "~1.0.6"
+    }
+}
