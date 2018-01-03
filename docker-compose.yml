@@ -18,7 +18,7 @@ services:
     depends_on:
       - maria
     ports:
-      - 8181:8080
+      - 8282:8080
     networks:
       - dev
 
@@ -30,7 +30,7 @@ services:
       - maria
       - adminer
     ports:
-      - 8080:80
+      - 8181:80
     environment:
       - WORDPRESS_DB_HOST=maria
       - WORDPRESS_DB_USER=wordpress

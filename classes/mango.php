@@ -130,22 +130,33 @@ final class Mango {
     }
 
     public function get_nav_menu_items( $data ) {
-      return wp_get_nav_menu_items( $data['id'] );
+      $items = wp_get_nav_menu_items( $data['id'] );
+      
+      if ( ! $items ) {
+        return new WP_Error( 'no_menu', 'Invalid menu', array( 'status' => 404 ) );
+      }
+
+      return $items;
     }
 
     public function get_nav_menu_location( $data ) {
       $locations = get_nav_menu_locations();
 
-      return ! array_key_exists( $data['name'], $locations ) 
-        ? new stdClass()
-        : $locations[ $data['name'] ];
+      if ( ! array_key_exists( $data['name'], $locations ) ) {
+        return new WP_Error( 'no_menu_location', 'Invalid menu Location', array( 'status' => 404 ) );
+      }
+
+      return $locations[ $data['name'] ];
     }
 
     public function get_nav_menu( $data ) {
         $menu = wp_get_nav_menu_object( $data['id'] );
-        return $menu;
 
-        return ! $menu ? new stdClass() : $menu ;
+        if ( ! $menu ) {
+          return new WP_Error( 'no_menu', 'Invalid menu', array( 'status' => 404 ) );
+        }
+
+        return $menu ;
     }
 
     public function admin_notice_enable_permalinks() {
