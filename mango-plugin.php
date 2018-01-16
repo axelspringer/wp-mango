@@ -28,6 +28,7 @@ $abspath = dirname( __FILE__ );
 
 // includes
 require_once $abspath . '/includes/functions.php';
+require_once $abspath . '/classes/mango-rest.php';
 require_once $abspath . '/classes/mango-settings-field.php';
 require_once $abspath . '/classes/mango-settings-section.php';
 require_once $abspath . '/classes/mango-settings.php';

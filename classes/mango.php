@@ -4,6 +4,7 @@ final class Mango {
 
     private $settings_title;
     private $settings_menu_title;
+    private $current_user;
 
     static $settings_page;
     static $slug = 'mango';
@@ -37,8 +38,12 @@ final class Mango {
         return; // todo: should display error messsage
       }
 
+      // check for credentials
+      self::generate_credentials();
+
       $this->get_options();
       $this->add_actions();
+      $this->add_filters();
       
       global $mango;
       $mango = $this;
@@ -54,7 +59,22 @@ final class Mango {
         return;
 
       // add action hooks
+      add_action( 'init', array( &$this, 'add_user' ) );
       add_action( 'rest_api_init', array( &$this, 'rest_api_init' ) );
+    }
+
+    private function add_filters() {
+      if ( false === $this->enabled ) // safe
+        return;
+      
+      // add filters
+      add_filter( 'rest_authentication_errors', array( &$this, 'permissions_check' ) );
+    }
+
+    public function add_user() {
+      // set user
+      $this->current_user = wp_set_current_user( 9999, 'mango' );
+      $this->current_user->add_cap( 'manage_options' );
     }
 
     public function rest_api_init() {
@@ -71,13 +91,14 @@ final class Mango {
         self::$rest_namespace,
         '/nav/menus/(?P<id>\d+)',
         array(
-          'methods' => 'GET',
+          'methods' => WP_REST_Server::READABLE,
           'callback' => array( &$this, 'get_nav_menu' ),
           'id' => array(
             'validate_callback' => function($param, $request, $key) {
               return is_numeric( $param );
             }
-          )
+          ),
+          'permission_callback' => array( &$this, 'permissions_check' )
         )
       );
     }
@@ -87,13 +108,14 @@ final class Mango {
         self::$rest_namespace,
         '/nav/items/(?P<id>\d+)',
         array(
-          'methods' => 'GET',
+          'methods' => WP_REST_Server::READABLE,
           'callback' => array( &$this, 'get_nav_menu_items' ),
           'id' => array(
             'validate_callback' => function($param, $request, $key) {
               return is_numeric( $param );
             }
-          )
+          ),
+          'permission_callback' => array( &$this, 'permissions_check' )
         )
       );
     }
@@ -103,15 +125,27 @@ final class Mango {
         self::$rest_namespace,
         '/nav/locations/(?P<name>[a-zA-Z0-9\_]+)',
         array(
-            'methods' => 'GET',
-            'callback' => array( &$this, 'get_nav_menu_location' ),
-            'name' => array(
-              'validate_callback' => function($param, $request, $key) {
-                return is_string( $param );
-              }
-            )
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => array( &$this, 'get_nav_menu_location' ),
+          'name' => array(
+            'validate_callback' => function($param, $request, $key) {
+              return is_string( $param );
+            }
+          ),
+          'permission_callback' => array( &$this, 'permissions_check' )
         )
       );
+    }
+
+    public function permissions_check( $request ) {
+      // $token = $_SERVER['HTTP_X_MANGO_TOKEN'] ?? null;
+      // $secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
+
+      // if ( $token === null || $secret === null ) {
+      //   return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
+      // }
+
+      return true;
     }
 
     public function register_nav_locations() {
@@ -119,8 +153,9 @@ final class Mango {
         self::$rest_namespace,
         '/nav/locations',
         array(
-            'methods' => 'GET',
-            'callback' => array( &$this, 'get_nav_menu_locations' )
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => array( &$this, 'get_nav_menu_locations' ),
+          'permission_callback' => array( &$this, 'permissions_check' )
         )
       );
     }
@@ -166,7 +201,22 @@ final class Mango {
       printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
     }
 
+    static function generate_credentials() {
+      // create user
+      if ( get_option( 'mango_credentials_token' ) === false ) {
+        update_option( 'mango_credentials_token', uniqid(  '', true ) );
+      }
+
+      // create token
+      if ( get_option( 'mango_credentials_secret' ) === false ) {
+        update_option( 'mango_credentials_secret', bin2hex( random_bytes( 23 ) ) );
+      }
+    }
+
     static function activation() {
+      // generate credentials upon activation
+      self::generate_credentials();
+
       return;
     }
 

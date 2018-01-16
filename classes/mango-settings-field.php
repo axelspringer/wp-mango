@@ -60,6 +60,12 @@ class Mango_Settings_Field {
 				</p>
 			</fieldset>
 		<?php
+		elseif($t == "parapraph"):
+		?>
+			<p>
+				<?= get_option($this->args['id']) ?>
+			</p>
+		<?php
 		elseif($t == "textarea"):
 		?>
 			<fieldset>
