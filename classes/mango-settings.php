@@ -15,7 +15,7 @@ final class Mango_Settings{
     
     wp_enqueue_style( 'mango_admin_style' );
 		wp_enqueue_script( 'mango_admin_script' );
-	}
+  }
 
   public function register_settings() {
 		// general
@@ -33,9 +33,10 @@ final class Mango_Settings{
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_settings',
 			'description'	  => __( '' ),
-			'type'				  => 'checkbox'
+			'type'				  => 'checkbox', // text, textarea, password, checkbox
+			'option_group'	=> 'settings_page_mango_settings_page',
 		);
-		$settings_enabled = new Mango_Settings_Field( $args );
+		$enabled = new Mango_Settings_Field( $args );
 
 		// credentials
 		$args = array(
@@ -52,7 +53,8 @@ final class Mango_Settings{
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_credentials',
 			'description'	  => __( 'User' ),
-			'type'				  => 'parapraph'
+			'type'				  => 'callback',
+			'callback'			=> array( &$this, 'callback_info' )
 		);
 		$credentials_user = new Mango_Settings_Field( $args );
 
@@ -62,7 +64,8 @@ final class Mango_Settings{
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_credentials',
 			'description'	  => __( 'Secret' ),
-			'type'				  => 'parapraph'
+			'type'				  => 'callback',
+			'callback'			=> array( &$this, 'callback_info' )
 		);
 		$credentials_secret = new Mango_Settings_Field( $args );
 
@@ -73,7 +76,7 @@ final class Mango_Settings{
 			'page'			  => 'mango_settings_page',
 			'description'	=> __( 'These are all the additional resources Mango provides to Wordpress.', Mango::$slug ),
     );
-		$resources = new Mango_Settings_Section( $args );
+    $resources = new Mango_Settings_Section( $args );
 
     $args = array(
 			'id'				    => 'mango_nav',
@@ -81,9 +84,11 @@ final class Mango_Settings{
 			'page'				  => 'mango_settings_page',
 			'section'			  => 'mango_resources',
 			'description'	  => __( '' ),
-			'type'				  => 'checkbox'
+			'type'				  => 'checkbox', // text, textarea, password, checkbox
+			'option_group'	=> 'settings_page_mango_settings_page',
 		);
 		$nav = new Mango_Settings_Field( $args );
+
   }
 
   public function add_settings_page() {
@@ -94,7 +99,7 @@ final class Mango_Settings{
       'mango_settings_page',
       array( &$this, 'settings_page' )
     );
-	}
+  }
 
   public function settings_page() {
     ?>
@@ -110,7 +115,6 @@ final class Mango_Settings{
 				<div class="row container-row">
 					<div class="col-xs-12 col-sm-4 col-md-3 navigation-container">
 						<ul class="navigation">
-
 						<?php
 							if ( isset( $wp_settings_sections[$page] ) ) {
 								foreach ( (array) $wp_settings_sections[$page] as $section ) {
@@ -124,7 +128,6 @@ final class Mango_Settings{
 								}
 							}
 						?>
-
 						</ul>
 					</div>
 					<div class="col-xs-12 col-sm-8 col-md-9 content-container">
@@ -171,6 +174,14 @@ final class Mango_Settings{
 		<?php
   }
 
+	public function callback_info( $args ) {
+		?>
+			<p>
+				<?= get_option( $args['id'] ) ?>
+			</p>
+		<?php
+	}
+
 	public function admin_notices(){
 		if ( isset($_GET['page']) && $_GET['page'] !== 'mango_settings_page' ){
 			return;
@@ -184,5 +195,6 @@ final class Mango_Settings{
 	}
 
   protected function __clone() {
+
   }
 }

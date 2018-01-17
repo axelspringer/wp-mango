@@ -33,7 +33,7 @@ final class Mango {
     
       $settings = new Mango_Settings();
 
-      if ( ! get_option( 'permalink_structure' ) ) { // REST only available
+      if ( false === get_option( 'permalink_structure' ) || empty( get_option( 'permalink_structure' ) ) ) { // REST only available
         add_action( 'admin_notices', array( &$this, 'admin_notice_enable_permalinks') );
         return; // todo: should display error messsage
       }
@@ -59,7 +59,6 @@ final class Mango {
         return;
 
       // add action hooks
-      add_action( 'init', array( &$this, 'add_user' ) );
       add_action( 'rest_api_init', array( &$this, 'rest_api_init' ) );
     }
 
@@ -72,12 +71,13 @@ final class Mango {
     }
 
     public function add_user() {
-      // set user
       $this->current_user = wp_set_current_user( 9999, 'mango' );
       $this->current_user->add_cap( 'manage_options' );
     }
 
     public function rest_api_init() {
+      $this->add_user(); // try adding user
+
       if ( $this->nav ) { // if menus are enabled
         $this->register_nav_menu();
         $this->register_nav_menu_items();
@@ -138,12 +138,15 @@ final class Mango {
     }
 
     public function permissions_check( $request ) {
-      // $token = $_SERVER['HTTP_X_MANGO_TOKEN'] ?? null;
-      // $secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
+      $nonce = $_SERVER[ 'HTTP_X_WP_NONCE'] ?? null;
+      $token = $_SERVER[ 'HTTP_X_MANGO_TOKEN' ] ?? null;
+      $secret = $_SERVER[ 'HTTP_X_MANGO_SECRET' ] ?? null;
 
-      // if ( $token === null || $secret === null ) {
-      //   return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
-      // }
+      if ( $nonce !== null ) // by pass if nonce is set
+        return null;
+
+      if ( $token === null || $secret === null ) // if not credentials
+        return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
 
       return true;
     }
