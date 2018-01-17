@@ -145,7 +145,8 @@ final class Mango {
       if ( $nonce !== null ) // by pass if nonce is set
         return null;
 
-      if ( $token === null || $secret === null ) // if not credentials
+      if ( $token !== get_option( 'mango_credentials_token' )
+      || $secret !== get_option( 'mango_credentials_secret' ) ) // if not credentials
         return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
 
       return true;
