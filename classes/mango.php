@@ -39,7 +39,7 @@ final class Mango {
       }
 
       // check for credentials
-      self::generate_credentials();
+      $this->generate_credentials();
 
       $this->get_options();
       $this->add_actions();
@@ -146,7 +146,7 @@ final class Mango {
         return null;
 
       if ( $token !== get_option( 'mango_credentials_token' )
-      || $secret !== get_option( 'mango_credentials_secret' ) ) // if not credentials
+        || $secret !== get_option( 'mango_credentials_secret' ) ) // if not credentials
         return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
 
       return true;
@@ -205,7 +205,7 @@ final class Mango {
       printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_html( $message ) );
     }
 
-    static function generate_credentials() {
+    private function generate_credentials() {
       // create user
       if ( get_option( 'mango_credentials_token' ) === false ) {
         update_option( 'mango_credentials_token', uniqid(  '', true ) );
@@ -219,12 +219,15 @@ final class Mango {
 
     static function activation() {
       // generate credentials upon activation
-      self::generate_credentials();
+      $this->generate_credentials();
 
       return;
     }
 
     static function deactivation() {
+      delete_option( 'mango_credentials_secret' ); // be ambigious here
+      delete_option( 'mango_credentials_token' );
+
       return;
     }
 
