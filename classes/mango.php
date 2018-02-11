@@ -181,10 +181,15 @@ final class Mango {
     }
 
     /**
-    * @return mixed
+    * @return array
     */
     public function get_customizer_settings() {
-      return get_theme_mods();
+      $customizerSettings = get_theme_mods();
+      if (empty($customizerSettings)) {
+        return array();
+      }
+
+      return $customizerSettings;
     }
 
     public function get_nav_menu_locations() {
