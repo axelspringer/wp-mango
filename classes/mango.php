@@ -185,7 +185,8 @@ final class Mango {
     */
     public function get_customizer_settings() {
       $customizerSettings = get_theme_mods();
-      if (empty($customizerSettings)) {
+
+      if ( empty( $customizerSettings ) ) {
         return array();
       }
 
