@@ -89,6 +89,17 @@ final class Mango_Settings{
 		);
 		$nav = new Mango_Settings_Field( $args );
 
+    $args = array(
+      'id'				    => 'mango_customizer',
+      'title'				  => __( 'Customizer' ),
+      'page'				  => 'mango_settings_page',
+      'section'			  => 'mango_resources',
+      'description'	  => __( '' ),
+      'type'				  => 'checkbox', // text, textarea, password, checkbox
+      'option_group'	=> 'settings_page_mango_settings_page',
+    );
+    $customizer = new Mango_Settings_Field( $args );
+
   }
 
   public function add_settings_page() {
