@@ -18,7 +18,10 @@ if ( ! function_exists( 'add_action' ) ) {
 }
 
 // composer autoload
-require 'vendor/autoload.php';
+$vendor_autoload_file = 'vendor/autoload.php';
+if ( file_exists( $vendor_autoload_file ) ) {
+  require $vendor_autoload_file;
+}
 
 // define global constants
 define( 'MANGO__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
