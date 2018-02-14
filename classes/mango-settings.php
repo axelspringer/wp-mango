@@ -89,6 +89,17 @@ final class Mango_Settings{
 		);
 		$nav = new Mango_Settings_Field( $args );
 
+    $args = array(
+      'id'				    => 'mango_customizer',
+      'title'				  => __( 'Customizer' ),
+      'page'				  => 'mango_settings_page',
+      'section'			  => 'mango_resources',
+      'description'	  => __( '' ),
+      'type'				  => 'checkbox', // text, textarea, password, checkbox
+      'option_group'	=> 'settings_page_mango_settings_page',
+    );
+    $customizer = new Mango_Settings_Field( $args );
+
   }
 
   public function add_settings_page() {
@@ -120,7 +131,7 @@ final class Mango_Settings{
 								foreach ( (array) $wp_settings_sections[$page] as $section ) {
 									echo '<li class="nav-item">';
 										echo '<a href="#'.$section['id'].'">';
-											if($section['icon'])
+											if( array_key_exists('icon', $section) && $section['icon'])
 												echo '<i class="fa fa-'.$section['icon'].'"></i> ';
 											echo '<span class="hidden-xs">' . $section['title'] . '</span>';
 										echo '</a>';
@@ -135,7 +146,7 @@ final class Mango_Settings{
 							if ( isset( $wp_settings_sections[$page] ) ) {
 								foreach ( (array) $wp_settings_sections[$page] as $section ) {
 									echo '<div class="section" id="section-'.$section['id'].'">';
-									if ( $section['icon'] ) {
+									if ( array_key_exists('icon', $section) && $section['icon'] ) {
 										$icon = "<i class='fa fa-{$section['icon']}'></i>";
 									} else {
 										$icon = null;

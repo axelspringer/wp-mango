@@ -52,6 +52,7 @@ final class Mango {
     private function get_options() {
       $this->enabled = get_option( 'mango_enabled' );
       $this->nav = get_option( 'mango_nav' );
+      $this->customizer = get_option( 'mango_customizer' );
     }
 
     private function add_actions() {
@@ -84,6 +85,22 @@ final class Mango {
         $this->register_nav_location();
         $this->register_nav_locations();
       }
+
+      if ( $this->customizer ) { //if customizer is enabled
+        $this->register_customizer();
+      }
+    }
+
+    public function register_customizer() {
+      register_rest_route(
+        self::$rest_namespace,
+        '/customizer',
+        array(
+          'methods' => WP_REST_Server::READABLE,
+          'callback' => array( &$this, 'get_customizer_settings' ),
+          'permission_callback' => array( &$this, 'permissions_check' )
+        )
+      );
     }
 
     public function register_nav_menu() {
@@ -162,6 +179,19 @@ final class Mango {
           'permission_callback' => array( &$this, 'permissions_check' )
         )
       );
+    }
+
+    /**
+    * @return array
+    */
+    public function get_customizer_settings() {
+      $customizerSettings = get_theme_mods();
+
+      if ( empty( $customizerSettings ) ) {
+        return array();
+      }
+
+      return $customizerSettings;
     }
 
     public function get_nav_menu_locations() {
