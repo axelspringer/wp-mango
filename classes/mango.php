@@ -25,7 +25,13 @@ final class Mango {
 
       $this->init( $plugin_file_path );
     }
- 
+    
+    /**
+     * Initializing the plugin
+     *
+     * @param [type] $plugin_file_path
+     * @return void
+     */
     function init( $plugin_file_path ) {
       self::$settings_page         = self::$slug;
       $this->settings_title        = __( 'Mango', self::$slug );
@@ -49,12 +55,22 @@ final class Mango {
       $mango = $this;
     }
 
+    /**
+     * Get the relevant WP Options
+     *
+     * @return void
+     */
     private function get_options() {
       $this->enabled = get_option( 'mango_enabled' );
       $this->nav = get_option( 'mango_nav' );
       $this->customizer = get_option( 'mango_customizer' );
     }
 
+    /**
+     * Add WP Actions
+     *
+     * @return void
+     */
     private function add_actions() {
       if ( false === $this->enabled ) // safe
         return;
@@ -63,6 +79,11 @@ final class Mango {
       add_action( 'rest_api_init', array( &$this, 'rest_api_init' ) );
     }
 
+    /**
+     * Add WP Filters
+     *
+     * @return void
+     */
     private function add_filters() {
       if ( false === $this->enabled ) // safe
         return;
@@ -71,11 +92,25 @@ final class Mango {
       add_filter( 'rest_authentication_errors', array( &$this, 'permissions_check' ) );
     }
 
+    /**
+     * Add a surrogate user
+     *
+     * @return void
+     */
     public function add_user() {
+      if ( ! is_null( $this->current_user ) && $this->current_user->ID !== 0 ) {
+        return;
+      }
+
       $this->current_user = wp_set_current_user( 9999, 'mango' );
       $this->current_user->add_cap( 'manage_options' );
     }
 
+    /**
+     * Hook into WP Rest API initialization
+     *
+     * @return void
+     */
     public function rest_api_init() {
       $this->add_user(); // try adding user
 
@@ -103,6 +138,11 @@ final class Mango {
       );
     }
 
+    /**
+     * Register navigation menu resource
+     *
+     * @return void
+     */
     public function register_nav_menu() {
       register_rest_route(
         self::$rest_namespace,
@@ -120,6 +160,11 @@ final class Mango {
       );
     }
 
+    /**
+     * Register the nav menu items resource
+     *
+     * @return void
+     */
     public function register_nav_menu_items() {
       register_rest_route(
         self::$rest_namespace,
@@ -137,6 +182,11 @@ final class Mango {
       );
     }
 
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function register_nav_location() {
       register_rest_route(
         self::$rest_namespace,
