@@ -98,6 +98,8 @@ final class Mango {
      * @return void
      */
     public function add_user() {
+      $this->current_user = wp_get_current_user();
+
       if ( ! is_null( $this->current_user ) && $this->current_user->ID !== 0 ) {
         return;
       }
@@ -212,6 +214,9 @@ final class Mango {
       if ( $nonce !== null ) // by pass if nonce is set
         return null;
 
+      if ( ! is_null( $this->current_user ) && $this->current_user->ID !== 0 ) //bypass if logged in user
+        return null;
+
       if ( $token !== get_option( 'mango_credentials_token' )
         || $secret !== get_option( 'mango_credentials_secret' ) ) // if not credentials
         return new WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
@@ -299,7 +304,7 @@ final class Mango {
 
     static function activation() {
       // generate credentials upon activation
-      $this->generate_credentials();
+      self::generate_credentials();
 
       return;
     }
