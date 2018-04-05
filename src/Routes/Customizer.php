@@ -7,42 +7,31 @@ namespace Wp\Mango\Routes;
  *
  * @package Wp\Mango\Routes
  */
-class Customizer
-{
-    /**
-     * @var Routes $routes
-     */
-    protected $routes;
+class Customizer implements Route {
+	/**
+	 * @var string
+	 */
+	protected $base = 'customizer';
 
-    /**
-     * @var string
-     */
-    protected $base = 'customizer';
+	/**
+	 * Posts constructor.
+	 */
+	public function __construct() {
+	}
 
-    /**
-     * Posts constructor.
-     *
-     * @param Routes $routes
-     */
-    public function __construct(Routes $routes)
-    {
-        $this->routes = $routes;
+	/**
+	 * @param Routes $routes
+	 */
+	public function configure( Routes $routes ) {
+		$routes->get( $this->base, [ $this, 'get_settings' ] );
+	}
 
-        $this->init();
-    }
+	/**
+	 * @return \WP_REST_Response
+	 */
+	public function get_settings() {
+		$settings = get_theme_mods();
 
-    /**
-     * @return \WP_REST_Response
-     */
-    public function get_settings()
-    {
-        $settings = get_theme_mods();
-
-        return new \WP_REST_Response($settings);
-    }
-
-    protected function init()
-    {
-        $this->routes->get($this->base, [$this, 'get_settings']);
-    }
+		return new \WP_REST_Response( $settings );
+	}
 }

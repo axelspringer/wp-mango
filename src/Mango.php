@@ -106,10 +106,10 @@ class Mango
         }
 
         if ($this->customizer) { //if customizer is enabled
-            new Customizer($routes);
+            $routes->configure(new Customizer());
         }
 
-        new Posts($routes);
+        $routes->configure(new Posts());
     }
 
     /**
