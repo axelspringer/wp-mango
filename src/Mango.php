@@ -10,7 +10,6 @@ use Wp\Mango\Routes\Routes;
  */
 class Mango
 {
-
     private $settings_title;
     private $settings_menu_title;
     private $current_user;
@@ -59,7 +58,7 @@ class Mango
 
         if (false === get_option('permalink_structure') || empty(get_option('permalink_structure'))) { // REST only available
             add_action('admin_notices', array(&$this, 'admin_notice_enable_permalinks'));
-            return; // todo: should display error messsage
+            return; // todo: should display error message
         }
 
         // check for credentials
@@ -219,7 +218,11 @@ class Mango
      */
     public function get_nav_menu_locations()
     {
-        return get_nav_menu_locations();
+        $locations = get_nav_menu_locations();
+
+        $locations = apply_filters('wp_mango_get_nav_menu_locations', $locations);
+
+        return $locations;
     }
 
     /**
@@ -245,7 +248,7 @@ class Mango
      */
     public function get_nav_menu_location($data)
     {
-        $locations = get_nav_menu_locations();
+        $locations = $this->get_nav_menu_locations();
 
         if (!array_key_exists($data['name'], $locations)) {
             return new \WP_Error('no_menu_location', 'Invalid menu Location', array('status' => 404));
