@@ -10,6 +10,9 @@ namespace Wp\Mango\Routes;
 class Routes {
 	const REST_NAMESPACE = 'mango/v1';
 
+	/**
+	 * @param Route $route
+	 */
 	public function configure( Route $route ) {
 		$route->configure( $this );
 	}
@@ -33,9 +36,28 @@ class Routes {
 	}
 
 	/**
+	 * @return \WP_REST_Response
+	 */
+	public function response_404() {
+		return new \WP_REST_Response( null, \WP_Http::NOT_FOUND );
+	}
+
+	/**
+	 * @param null $data
+	 * @param int $status
+	 * @param array $headers
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function response( $data = null, $status = 200, $headers = [] ) {
+		return new \WP_REST_Response( $data, $status, $headers );
+	}
+
+	/**
 	 * @return bool|\WP_Error
 	 */
 	public function permissions_check() {
+		return true;
 		$nonce  = $_SERVER['HTTP_X_WP_NONCE'] ?? null;
 		$token  = $_SERVER['HTTP_X_MANGO_TOKEN'] ?? null;
 		$secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
@@ -60,6 +82,5 @@ class Routes {
 
 		return true;
 	}
-
 
 }

@@ -202,20 +202,6 @@ class Mango
     /**
      * @return array
      */
-    public function get_customizer_settings()
-    {
-        $customizerSettings = get_theme_mods();
-
-        if (empty($customizerSettings)) {
-            return array();
-        }
-
-        return $customizerSettings;
-    }
-
-    /**
-     * @return array
-     */
     public function get_nav_menu_locations()
     {
         $locations = get_nav_menu_locations();
