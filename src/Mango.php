@@ -2,6 +2,7 @@
 
 namespace Wp\Mango;
 use Wp\Mango\Routes\Customizer;
+use Wp\Mango\Routes\Nav;
 use Wp\Mango\Routes\Posts;
 use Wp\Mango\Routes\Routes;
 
@@ -98,10 +99,7 @@ class Mango
         $routes = new Routes();
 
         if ($this->nav) { // if menus are enabled
-            $this->register_nav_menu();
-            $this->register_nav_menu_items();
-            $this->register_nav_location();
-            $this->register_nav_locations();
+	        $routes->configure(new Nav());
         }
 
         if ($this->customizer) { //if customizer is enabled
@@ -109,56 +107,7 @@ class Mango
         }
 
         $routes->configure(new Posts());
-    }
 
-    /**
-     * @return bool
-     */
-    public function register_nav_menu():bool
-    {
-        return register_rest_route(
-            self::$rest_namespace,
-            '/nav/menus/(?P<id>\d+)',
-            array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => [$this, 'get_nav_menu'],
-                'permission_callback' => [$this, 'permissions_check']
-            )
-        );
-    }
-
-    /**
-     * @return bool
-     */
-    public function register_nav_menu_items():bool
-    {
-        return register_rest_route(
-            self::$rest_namespace,
-            '/nav/items/(?P<id>\d+)',
-            array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => [$this, 'get_nav_menu_items'],
-                'permission_callback' => [$this, 'permissions_check']
-            )
-        );
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function register_nav_location()
-    {
-        register_rest_route(
-            self::$rest_namespace,
-            '/nav/locations/(?P<name>[a-zA-Z0-9\_]+)',
-            array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => [$this, 'get_nav_menu_location'],
-                'permission_callback' => [$this, 'permissions_check']
-            )
-        );
     }
 
     /**
@@ -181,96 +130,6 @@ class Mango
             return new \WP_Error('invalid_credentials', 'Invalid Credentials', array('status' => 403));
 
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function register_nav_locations():bool
-    {
-        return register_rest_route(
-            self::$rest_namespace,
-            '/nav/locations',
-            array(
-                'methods' => \WP_REST_Server::READABLE,
-                'callback' => array(&$this, 'get_nav_menu_locations'),
-                'permission_callback' => array(&$this, 'permissions_check')
-            )
-        );
-    }
-
-    /**
-     * @return array
-     */
-    public function get_customizer_settings()
-    {
-        $customizerSettings = get_theme_mods();
-
-        if (empty($customizerSettings)) {
-            return array();
-        }
-
-        return $customizerSettings;
-    }
-
-    /**
-     * @return array
-     */
-    public function get_nav_menu_locations()
-    {
-        $locations = get_nav_menu_locations();
-
-        $locations = apply_filters('wp_mango_get_nav_menu_locations', $locations);
-
-        return $locations;
-    }
-
-    /**
-     * @param $data
-     *
-     * @return array|false|\WP_Error
-     */
-    public function get_nav_menu_items($data)
-    {
-        $items = wp_get_nav_menu_items($data['id']);
-
-        if (!$items) {
-            return new \WP_Error('no_menu', 'Invalid menu', array('status' => 404));
-        }
-
-        return $items;
-    }
-
-    /**
-     * @param $data
-     *
-     * @return \WP_Error|\WP_Term
-     */
-    public function get_nav_menu_location($data)
-    {
-        $locations = $this->get_nav_menu_locations();
-
-        if (!array_key_exists($data['name'], $locations)) {
-            return new \WP_Error('no_menu_location', 'Invalid menu Location', array('status' => 404));
-        }
-
-        return $locations[$data['name']];
-    }
-
-    /**
-     * @param $data
-     *
-     * @return false|\WP_Error|\WP_Term
-     */
-    public function get_nav_menu($data)
-    {
-        $menu = wp_get_nav_menu_object($data['id']);
-
-        if (!$menu) {
-            return new \WP_Error('no_menu', 'Invalid menu', array('status' => 404));
-        }
-
-        return $menu;
     }
 
     public function admin_notice_enable_permalinks()
