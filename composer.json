@@ -11,6 +11,10 @@
         "psr-0": {},
         "classmap": []
     },
+    "repositories": [{
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }],
     "keywords": [
         "plugin",
         "mango",
