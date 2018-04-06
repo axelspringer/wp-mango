@@ -4,6 +4,13 @@
     "homepage": "https://github.com/axelspringer/wp-mango",
     "license": "Apache-2.0",
     "description": "A companion WordPress plugin to support Mango.",
+    "autoload": {
+    "psr-4": {
+      "WP\\": "src/"
+    },
+    "psr-0": {},
+    "classmap": []
+  },
     "keywords": [
         "plugin",
         "mango",
