@@ -57,7 +57,6 @@ class Routes {
 	 * @return bool|\WP_Error
 	 */
 	public function permissions_check() {
-		return true;
 		$nonce  = $_SERVER['HTTP_X_WP_NONCE'] ?? null;
 		$token  = $_SERVER['HTTP_X_MANGO_TOKEN'] ?? null;
 		$secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
