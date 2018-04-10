@@ -39,9 +39,9 @@ class Posts implements Route {
 			return $this->routes->response_404();
 		}
 
-		$post             = get_post( $post_id );
-		$post->categories = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
-		$post->tags       = wp_get_post_tags( $post->ID );
+		$post              = get_post( $post_id );
+		$post->categories  = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
+		$post->tags        = wp_get_post_tags( $post->ID );
 
 		$post = apply_filters( 'wp_mango_routes_posts_post_by_permalink', $post );
 
