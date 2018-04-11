@@ -20,7 +20,8 @@
         "mango",
         "wordpress",
         "rest",
-        "api"
+        "api",
+        "axelspringer"
     ],
     "require": {
         "composer/installers": "~1.0.6"
