@@ -14,16 +14,17 @@ class Posts implements Route {
 	protected $base = 'posts';
 
 	/**
-	 * Posts constructor.
+	 * @var Routes
 	 */
-	public function __construct() {
-	}
+	protected $routes;
 
 	/**
 	 * @param Routes $routes
 	 */
 	public function configure( Routes $routes ) {
-		$routes->get( $this->base . '/url-to-post', [ $this, 'url_to_post' ] );
+		$this->routes = $routes;
+
+		$routes->get( $this->base . '/post-by-permalink', [ $this, 'post_by_permalink' ] );
 	}
 
 	/**
@@ -31,19 +32,19 @@ class Posts implements Route {
 	 *
 	 * @return \WP_REST_Response
 	 */
-	public function url_to_post( \WP_REST_Request $request ): \WP_REST_Response {
-		$post_id = url_to_postid( $request->get_param( 'url' ) );
+	public function post_by_permalink( \WP_REST_Request $request ): \WP_REST_Response {
+		$post_id = url_to_postid( $request->get_param( 'permalink' ) );
 
 		if ( $post_id === 0 ) {
-			return new \WP_REST_Response( null, 404 );
+			return $this->routes->response_404();
 		}
 
-		$post             = get_post( $post_id );
-		$post->categories = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
-		$post->tags       = wp_get_post_tags( $post->ID );
+		$post              = get_post( $post_id );
+		$post->categories  = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
+		$post->tags        = wp_get_post_tags( $post->ID );
 
-		$post = apply_filters( 'wp_mango_routes_posts_url_to_post', $post );
+		$post = apply_filters( 'wp_mango_routes_posts_post_by_permalink', $post );
 
-		return new \WP_REST_Response( $post );
+		return $this->routes->response( $post );
 	}
 }
