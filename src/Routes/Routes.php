@@ -2,6 +2,8 @@
 
 namespace Wp\Mango\Routes;
 
+use Wp\Mango\Services\Credentials;
+
 /**
  * Class Routes
  *
@@ -9,6 +11,22 @@ namespace Wp\Mango\Routes;
  */
 class Routes {
 	const REST_NAMESPACE = 'mango/v1';
+
+	/**
+	 * @var Credentials
+	 */
+	protected $credentials;
+
+	/**
+	 * Routes constructor.
+	 *
+	 * @param Credentials $credentials
+	 */
+	public function __construct( Credentials $credentials ) {
+		$this->credentials = $credentials;
+
+		add_filter( 'rest_authentication_errors', [ $this, 'permissions_check' ] );
+	}
 
 	/**
 	 * @param Route $route
@@ -73,9 +91,8 @@ class Routes {
 			return true;
 		}
 
-		if ( $token !== get_option( 'mango_credentials_token' )
-		     || $secret !== get_option( 'mango_credentials_secret' ) ) // if not credentials
-		{
+		if ( !$this->credentials->is_valid_token( $token )
+		     || !$this->credentials->is_valid_secret( $secret ) ) {
 			return new \WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
 		}
 

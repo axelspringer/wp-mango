@@ -20,7 +20,7 @@ if ( ! function_exists( 'add_action' ) ) {
 // composer autoload
 $vendor_autoload_file = 'vendor/autoload.php';
 if ( file_exists( $vendor_autoload_file ) ) {
-  require $vendor_autoload_file;
+	require $vendor_autoload_file;
 }
 
 // define global constants
@@ -29,7 +29,7 @@ define( 'MANGO__PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 global $mango;
 
 // create instance
-$mango = new Wp\Mango\Mango( __FILE__, '0.0.2' );
+$mango = new Wp\Mango\Mango( __FILE__, '1.0.0' );
 
 // register 
 register_activation_hook( __FILE__, 'Mango::activation' );
