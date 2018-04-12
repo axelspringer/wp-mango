@@ -39,12 +39,13 @@ class Posts implements Route {
 			return $this->routes->response_404();
 		}
 
-		$post              = get_post( $post_id );
-		$post->categories  = wp_get_post_categories( $post->ID, [ 'fields' => 'all' ] );
-		$post->tags        = wp_get_post_tags( $post->ID );
+		$post = get_post( $post_id );
 
-		$post = apply_filters( 'wp_mango_routes_posts_post_by_permalink', $post );
+		$ctrl    = new \WP_REST_Posts_Controller( $post->post_type );
+		$request = new \WP_REST_Request();
+		//$_GET['_embed'] = true;
+		$request->set_param( 'id', $post->ID );
 
-		return $this->routes->response( $post );
+		return apply_filters( 'wp_mango_routes_posts_post_by_permalink', $ctrl->get_item( $request ) );
 	}
 }
