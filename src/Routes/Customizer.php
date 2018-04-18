@@ -32,6 +32,8 @@ class Customizer implements Route {
 	public function get_settings() {
 		$settings = get_theme_mods();
 
+        $settings = apply_filters( 'wp_mango_customizer_get_settings', $settings );
+
 		return new \WP_REST_Response( $settings );
 	}
 }
