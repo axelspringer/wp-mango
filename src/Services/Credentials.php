@@ -1,6 +1,6 @@
 <?php
 
-namespace Wp\Mango\Services;
+namespace AxelSpringer\WP\Mango\Services;
 
 /**
  * Class Credentials
@@ -12,12 +12,12 @@ class Credentials {
 	/**
 	 * @var string
 	 */
-	protected $token_option_key = 'mango_credentials_token';
+	protected $token_option_key = 'wp_mango_credentials_token';
 
 	/**
 	 * @var string
 	 */
-	protected $secret_option_key = 'mango_credentials_secret';
+	protected $secret_option_key = 'wp_mango_credentials_secret';
 
 	/**
 	 *
@@ -46,7 +46,7 @@ class Credentials {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_token( string $token ): bool {
+	public function is_valid_token( $token ): bool {
 		return $token === $this->get_token();
 	}
 
@@ -55,7 +55,7 @@ class Credentials {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_secret( string $secret ): bool {
+	public function is_valid_secret( $secret ): bool {
 		return $secret === $this->get_secret();
 	}
 
@@ -71,9 +71,8 @@ class Credentials {
 	 *
 	 */
 	protected function generate_token() {
-		if ( $this->get_token() ) {
+		if ( $this->get_token() )
 			return;
-		}
 
 		update_option( $this->token_option_key, uniqid( '', true ) );
 	}
@@ -82,9 +81,8 @@ class Credentials {
 	 *
 	 */
 	protected function generate_secret() {
-		if ( $this->get_secret() ) {
+		if ( $this->get_secret() )
 			return;
-		}
 
 		update_option( $this->secret_option_key, bin2hex( random_bytes( 23 ) ) );
 	}

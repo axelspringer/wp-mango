@@ -6,10 +6,8 @@
     "description": "A companion WordPress plugin to support Mango.",
     "autoload": {
         "psr-4": {
-            "Wp\\Mango\\": "src/"
-        },
-        "psr-0": {},
-        "classmap": []
+          "AxelSpringer\\WP\\Mango\\": "src/"
+        }
     },
     "repositories": [{
       "type": "composer",
@@ -24,6 +22,11 @@
         "axelspringer"
     ],
     "require": {
-        "composer/installers": "~1.0.6"
+        "composer/installers": "~1.0.6",
+        "axelspringer/wp-bootstrap": "dev-master"
+    },
+    "scripts": {
+        "post-install-cmd": ["composer dump-autoload"],
+        "post-update-cmd": ["composer dump-autoload"]
     }
 }

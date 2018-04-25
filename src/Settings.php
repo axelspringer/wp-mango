@@ -1,0 +1,132 @@
+<?php
+
+namespace AxelSpringer\WP\Mango;
+
+use AxelSpringer\WP\Bootstrap\Settings\AbstractSettings;
+use AxelSpringer\WP\Bootstrap\Settings\Page;
+use AxelSpringer\WP\Bootstrap\Settings\Field;
+use AxelSpringer\WP\Bootstrap\Settings\Section;
+
+/**
+ * Class Settings
+ *
+ * @package AxelSpringer\WP\Bootstrap
+ */
+class Settings extends AbstractSettings {
+
+    /**
+     * Loading the settings for the plugin
+     */
+    public function load_settings()
+    {
+      // general
+      $args     = array(
+        'id'          => 'wp_mango_general',
+        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_GENERAL, __PLUGIN__::TEXT_DOMAIN ),
+        'page'        => __PLUGIN__::SETTINGS_PAGE,
+        'description' => __( 'These settings control the general setup of the Mango plugin.', __PLUGIN__::TEXT_DOMAIN ),
+      );
+      $settings = new Section( $args );
+
+      $args    = array(
+        'id'           => 'wp_mango_enabled',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ENABLED, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_general',
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => $this->page,
+      );
+      $enabled = new Field( $args );
+
+      // credentials
+      $args        = array(
+        'id'          => 'wp_mango_credentials',
+        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_CREDENTIALS, __PLUGIN__::TEXT_DOMAIN ),
+        'page'        => __PLUGIN__::SETTINGS_PAGE,
+        'description' => 'These are authentication credentials.'
+      );
+      $credentials = new Section( $args );
+
+      $args             = array(
+        'id'          => 'wp_mango_credentials_token',
+        'title'       => __( __TRANSLATE__::SETTINGS_FIELD_TOKEN, __PLUGIN__::TEXT_DOMAIN ),
+        'page'        => $this->page,
+        'section'     => 'wp_mango_credentials',
+        'description' => __( 'User' ),
+        'type'        => 'callback',
+        'option_group' => $this->page,
+        'callback'    => array( &$this, 'callback_info' )
+      );
+      $credentials_user = new Field( $args );
+
+      $args               = array(
+        'id'          => 'wp_mango_credentials_secret',
+        'title'       => __( __TRANSLATE__::SETTINGS_FIELD_SECRET, __PLUGIN__::TEXT_DOMAIN ),
+        'page'        => $this->page,
+        'section'     => 'wp_mango_credentials',
+        'description' => __( 'Secret' ),
+        'type'        => 'callback',
+        'option_group' => $this->page,
+        'callback'    => array( &$this, 'callback_info' )
+      );
+      $credentials_secret = new Field( $args );
+
+      // resources
+      $args      = array(
+        'id'          => 'wp_mango_resources',
+        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_RESOURCES, __PLUGIN__::TEXT_DOMAIN ),
+        'page'        => __PLUGIN__::SETTINGS_PAGE,
+        'description' => 'These are all the additional resources Mango provides to Wordpress.',
+      );
+      $resources = new Section( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_posts',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_POSTS, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => __PLUGIN__::SETTINGS_PAGE,
+      );
+      $posts  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_nav',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_NAVIGATION, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => __PLUGIN__::SETTINGS_PAGE,
+      );
+      $nav  = new Field( $args );
+
+      $args       = array(
+        'id'           => 'wp_mango_customizer',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_CUSTOMIZER, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => $this->page
+      );
+      $customizer = new Field( $args );
+    }
+
+     /**
+     * Info callback (legacy)
+     *
+     */
+    public function callback_info( $args )
+    {
+        ?>
+        <p>
+            <?= get_option( $args['id'] ) ?>
+        </p>
+        <?php
+    }
+}

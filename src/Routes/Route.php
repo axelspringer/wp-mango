@@ -1,6 +1,6 @@
 <?php
 
-namespace Wp\Mango\Routes;
+namespace AxelSpringer\WP\Mango\Routes;
 
 /**
  * Interface Route

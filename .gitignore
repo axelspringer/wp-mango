@@ -1,4 +1,5 @@
 # vendor
 vendor
+wp-content
 composer.lock
 .idea

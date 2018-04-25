@@ -1,8 +1,8 @@
 <?php
 
-namespace Wp\Mango\Routes;
+namespace AxelSpringer\WP\Mango\Routes;
 
-use Wp\Mango\Services\Credentials;
+use AxelSpringer\WP\Mango\Services\Credentials;
 
 /**
  * Class Routes
@@ -80,9 +80,8 @@ class Routes {
 		$secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
 
 		// by pass if nonce is set
-		if ( $nonce !== null ) {
+		if ( $nonce !== null )
 			return true;
-		}
 
 		$current_user = wp_get_current_user();
 
