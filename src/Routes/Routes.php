@@ -3,6 +3,7 @@
 namespace AxelSpringer\WP\Mango\Routes;
 
 use AxelSpringer\WP\Mango\Services\Credentials;
+use AxelSpringer\WP\Mango\__PLUGIN__;
 
 /**
  * Class Routes
@@ -10,8 +11,6 @@ use AxelSpringer\WP\Mango\Services\Credentials;
  * @package Wp\Mango\Routes
  */
 class Routes {
-	const REST_NAMESPACE = 'mango/v1';
-
 	/**
 	 * @var Credentials
 	 */
@@ -43,7 +42,7 @@ class Routes {
 	 */
 	public function get( string $route, callable $callback ): bool {
 		return register_rest_route(
-			Routes::REST_NAMESPACE,
+			__PLUGIN__::NAMESPACE,
 			$route,
 			[
 				'methods'             => \WP_REST_Server::READABLE,
@@ -86,9 +85,11 @@ class Routes {
 		$current_user = wp_get_current_user();
 
 		// bypass if logged in user
-		if ( ! is_null( $current_user ) && $current_user->ID !== 0 ) {
+		if ( ! is_null( $current_user ) && $current_user->ID !== 0 )
 			return true;
-		}
+
+		// give 
+		$current_user->set_role( __PLUGIN__::ROLE );
 
 		if ( !$this->credentials->is_valid_token( $token )
 		     || !$this->credentials->is_valid_secret( $secret ) ) {

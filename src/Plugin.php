@@ -73,6 +73,8 @@ class Plugin extends AbstractPlugin
      */
     public static function activation()
     {   
+        add_role( __PLUGIN__::ROLE, __PLUGIN__::ROLE_DISPLAYNAME, __PLUGIN__::ROLE_CAPABILITIES );
+
         // noop
 		return true;
     }
@@ -92,6 +94,8 @@ class Plugin extends AbstractPlugin
      */
     public static function deactivation()
     {
+        remove_role( __PLUGIN__::ROLE );
+
         // noop
 		return true;
     }
