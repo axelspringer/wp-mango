@@ -7,6 +7,6 @@ Stable tag: 1.0
 License: Apache-2.0
 License URI: https://opensource.org/licenses/Apache-2.0
 
-Extends the WordPress REST API.
+A companion plugin for Mango, which extends the WordPress REST API.
 
 == Description ==
