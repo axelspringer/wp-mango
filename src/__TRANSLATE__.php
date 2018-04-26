@@ -18,6 +18,7 @@ abstract class __TRANSLATE__
     const SETTINGS_FIELD_NAVIGATION     = 'Navigation';
     const SETTINGS_FIELD_CUSTOMIZER     = 'Customizer';
     const SETTINGS_FIELD_POSTS          = 'Posts';
+    const SETTINGS_FIELD_REDIRECT       = 'Redirect';
     
     const SETTINGS_FIELD_ROLE_CAPABILITIES = 'Capabilities';
 }

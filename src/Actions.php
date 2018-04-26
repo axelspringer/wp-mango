@@ -43,7 +43,26 @@ class Actions
         $this->credentials = $credentials;
 
         // init REST API
-        add_action( 'rest_api_init', [ &$this, 'rest_api_init' ] );
+        add_action( 'rest_api_init', [&$this, 'rest_api_init'] );
+        // redirect on /wp-admin/
+        add_action ( 'template_redirect', [&$this, 'redirect_url'] );
+    }
+
+    /**
+     * Redirect all requests to /wp-admin/
+     * 
+     */
+    public function redirect_url()
+    {
+        if ( ! $this->setup->options['wp_mango_redirect'] )
+            return;
+
+        if ( ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {
+            wp_redirect( get_admin_url() );
+            die;
+        }
+
+        return;
     }
 
     /**

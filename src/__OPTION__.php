@@ -12,6 +12,7 @@ abstract class __OPTION__
     const WP_MANGO_NAV              = false;
     const WP_MANGO_CUSTOMIZER       = false;
     const WP_MANGO_POSTS            = false;
+    const WP_MANGO_REDIRECT         = false;
 
     // Role
     const WP_MANGO_ROLE             = Role::EDITOR;
