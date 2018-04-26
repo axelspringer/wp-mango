@@ -54,7 +54,7 @@ class Actions
             return;
 
         // configure routes
-        $this->routes = new Routes( $this->credentials );
+        $this->routes = new Routes( $this->credentials, $this->setup );
 
         if ( $this->setup->options['wp_mango_nav'] ) // navigation
             $this->routes->configure( new Nav() );

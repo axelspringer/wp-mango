@@ -6,6 +6,9 @@ use AxelSpringer\WP\Bootstrap\Settings\AbstractSettings;
 use AxelSpringer\WP\Bootstrap\Settings\Page;
 use AxelSpringer\WP\Bootstrap\Settings\Field;
 use AxelSpringer\WP\Bootstrap\Settings\Section;
+use AxelSpringer\WP\Bootstrap\User\Roles;
+use AxelSpringer\WP\Bootstrap\User\RoleName;
+use AxelSpringer\WP\Bootstrap\User\Role;
 
 /**
  * Class Settings
@@ -38,6 +41,19 @@ class Settings extends AbstractSettings {
         'option_group' => $this->page,
       );
       $enabled = new Field( $args );
+
+      $args    = array(
+        'id'           => 'wp_mango_role',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_general',
+        'description'  => __( '' ),
+        'type'         => 'dropdown', // text, textarea, password, checkbox
+        'option_group' => $this->page,
+        'options'       => array( Role::NONE => RoleName::NONE, Role::EDITOR => RoleName::EDITOR )
+
+      );
+      $role = new Field( $args );
 
       // credentials
       $args        = array(

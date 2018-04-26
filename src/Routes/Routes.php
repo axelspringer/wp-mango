@@ -2,6 +2,7 @@
 
 namespace AxelSpringer\WP\Mango\Routes;
 
+use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 use AxelSpringer\WP\Mango\Services\Credentials;
 use AxelSpringer\WP\Mango\__PLUGIN__;
 
@@ -12,6 +13,11 @@ use AxelSpringer\WP\Mango\__PLUGIN__;
  */
 class Routes {
 	/**
+	 * @var Setup
+	 */
+	protected $setup;
+
+	/**
 	 * @var Credentials
 	 */
 	protected $credentials;
@@ -21,8 +27,9 @@ class Routes {
 	 *
 	 * @param Credentials $credentials
 	 */
-	public function __construct( Credentials $credentials ) {
+	public function __construct( Credentials $credentials, Setup &$setup ) {
 		$this->credentials = $credentials;
+		$this->setup = $setup;
 
 		add_filter( 'rest_authentication_errors', [ $this, 'permissions_check' ] );
 	}
@@ -88,15 +95,14 @@ class Routes {
 		if ( ! is_null( $current_user ) && $current_user->ID !== 0 )
 			return true;
 
-		// give 
-		$current_user->set_role( __PLUGIN__::ROLE );
-
 		if ( !$this->credentials->is_valid_token( $token )
 		     || !$this->credentials->is_valid_secret( $secret ) ) {
 			return new \WP_Error( 'invalid_credentials', 'Invalid Credentials', array( 'status' => 403 ) );
 		}
 
-		return true;
+		// give 
+		$role = $this->setup->options['wp_mango_role'];
+		return ( get_role( $role ) && $current_user->set_role( $role ) ) || true;
 	}
 
 }
