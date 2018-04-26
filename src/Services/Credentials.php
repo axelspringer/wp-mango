@@ -9,15 +9,8 @@ namespace AxelSpringer\WP\Mango\Services;
  */
 class Credentials {
 
-	/**
-	 * @var string
-	 */
-	protected $token_option_key = 'wp_mango_credentials_token';
-
-	/**
-	 * @var string
-	 */
-	protected $secret_option_key = 'wp_mango_credentials_secret';
+	const OPTION_TOKEN 			= 'wp_mango_credentials_token';
+	const OPTION_SECRET_KEY 	= 'wp_mango_credentials_secret'; 
 
 	/**
 	 *
@@ -31,14 +24,14 @@ class Credentials {
 	 * @return string|false
 	 */
 	public function get_token() {
-		return get_option( $this->token_option_key );
+		return get_option( Credentials::OPTION_TOKEN );
 	}
 
 	/**
 	 * @return string|false
 	 */
 	public function get_secret() {
-		return get_option( $this->secret_option_key );
+		return get_option( Credentials::OPTION_SECRET_KEY );
 	}
 
 	/**
@@ -63,8 +56,8 @@ class Credentials {
 	 *
 	 */
 	public function clear_credentials() {
-		delete_option( $this->token_option_key );
-		delete_option( $this->secret_option_key );
+		delete_option( Credentials::OPTION_TOKEN );
+		delete_option( Credentials::OPTION_SECRET_KEY );
 	}
 
 	/**
@@ -74,7 +67,7 @@ class Credentials {
 		if ( $this->get_token() )
 			return;
 
-		update_option( $this->token_option_key, uniqid( '', true ) );
+		update_option( Credentials::OPTION_TOKEN , uniqid( '', true ) );
 	}
 
 	/**
@@ -84,6 +77,6 @@ class Credentials {
 		if ( $this->get_secret() )
 			return;
 
-		update_option( $this->secret_option_key, bin2hex( random_bytes( 23 ) ) );
+		update_option( Credentials::OPTION_SECRET_KEY , bin2hex( random_bytes( 23 ) ) );
 	}
 }

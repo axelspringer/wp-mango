@@ -9,6 +9,7 @@ use AxelSpringer\WP\Bootstrap\Settings\Section;
 use AxelSpringer\WP\Bootstrap\User\Roles;
 use AxelSpringer\WP\Bootstrap\User\RoleName;
 use AxelSpringer\WP\Bootstrap\User\Role;
+use AxelSpringer\WP\Mango\Services\Credentials;
 
 /**
  * Class Settings
@@ -65,7 +66,7 @@ class Settings extends AbstractSettings {
       $credentials = new Section( $args );
 
       $args             = array(
-        'id'          => 'wp_mango_credentials_token',
+        'id'          => Credentials::OPTION_TOKEN,
         'title'       => __( __TRANSLATE__::SETTINGS_FIELD_TOKEN, __PLUGIN__::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
@@ -77,7 +78,7 @@ class Settings extends AbstractSettings {
       $credentials_user = new Field( $args );
 
       $args               = array(
-        'id'          => 'wp_mango_credentials_secret',
+        'id'          => Credentials::OPTION_SECRET_KEY,
         'title'       => __( __TRANSLATE__::SETTINGS_FIELD_SECRET, __PLUGIN__::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
