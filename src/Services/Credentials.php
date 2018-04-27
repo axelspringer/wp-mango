@@ -13,9 +13,11 @@ class Credentials {
 	const OPTION_SECRET_KEY 	= 'wp_mango_credentials_secret'; 
 
 	/**
-	 *
+	 * Generate credentials
+	 * 
 	 */
-	public function generate_credentials() {
+	public function generate_credentials()
+	{
 		$this->generate_token();
 		$this->generate_secret();
 	}
@@ -23,14 +25,16 @@ class Credentials {
 	/**
 	 * @return string|false
 	 */
-	public function get_token() {
+	public function get_token()
+	{
 		return get_option( Credentials::OPTION_TOKEN );
 	}
 
 	/**
 	 * @return string|false
 	 */
-	public function get_secret() {
+	public function get_secret()
+	{
 		return get_option( Credentials::OPTION_SECRET_KEY );
 	}
 
@@ -39,7 +43,8 @@ class Credentials {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_token( $token ): bool {
+	public function is_valid_token( $token ): bool
+	{
 		return $token === $this->get_token();
 	}
 
@@ -48,14 +53,16 @@ class Credentials {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_secret( $secret ): bool {
+	public function is_valid_secret( $secret ): bool
+	{
 		return $secret === $this->get_secret();
 	}
 
 	/**
 	 *
 	 */
-	public function clear_credentials() {
+	public function clear_credentials()
+	{
 		delete_option( Credentials::OPTION_TOKEN );
 		delete_option( Credentials::OPTION_SECRET_KEY );
 	}
@@ -63,7 +70,8 @@ class Credentials {
 	/**
 	 *
 	 */
-	protected function generate_token() {
+	protected function generate_token()
+	{
 		if ( $this->get_token() )
 			return;
 
@@ -73,7 +81,8 @@ class Credentials {
 	/**
 	 *
 	 */
-	protected function generate_secret() {
+	protected function generate_secret()
+	{
 		if ( $this->get_secret() )
 			return;
 

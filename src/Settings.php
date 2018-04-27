@@ -145,13 +145,14 @@ class Settings extends AbstractSettings {
       $customizer = new Field( $args );
     }
 
-     /**
+    /**
      * Info callback (legacy)
      *
      */
     public function callback_info( $args )
     {
         ?>
+        <input type="hidden" name="<?= $args['id']?>" id="<?= $args['id']?>" value="<?= get_option($args['id']) ?>">
         <p>
             <?= get_option( $args['id'] ) ?>
         </p>
