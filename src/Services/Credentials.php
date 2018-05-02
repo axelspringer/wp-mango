@@ -2,15 +2,27 @@
 
 namespace AxelSpringer\WP\Mango\Services;
 
+use AxelSpringer\WP\Bootstrap\Plugin\Setup;
+
 /**
  * Class Credentials
  *
  * @package Wp\Mango\Services
  */
 class Credentials {
+	/**
+	 * @var Setup
+	 */
+	protected $setup;
 
-	const OPTION_TOKEN 			= 'wp_mango_credentials_token';
-	const OPTION_SECRET_KEY 	= 'wp_mango_credentials_secret'; 
+	/**
+	 * Credentials constructor.
+	 *
+	 * @param Credentials $credentials
+	 */
+	public function __construct( Setup &$setup ) {
+		$this->setup = $setup;
+	}
 
 	/**
 	 * Generate credentials
@@ -23,29 +35,13 @@ class Credentials {
 	}
 
 	/**
-	 * @return string|false
-	 */
-	public function get_token()
-	{
-		return get_option( Credentials::OPTION_TOKEN );
-	}
-
-	/**
-	 * @return string|false
-	 */
-	public function get_secret()
-	{
-		return get_option( Credentials::OPTION_SECRET_KEY );
-	}
-
-	/**
 	 * @param string $token
 	 *
 	 * @return bool
 	 */
 	public function is_valid_token( $token ): bool
 	{
-		return $token === $this->get_token();
+		return $token === $this->setup->options[ 'wp_mango_credentials_token' ];
 	}
 
 	/**
@@ -55,7 +51,7 @@ class Credentials {
 	 */
 	public function is_valid_secret( $secret ): bool
 	{
-		return $secret === $this->get_secret();
+		return $secret === $this->setup->options[ 'wp_mango_credentials_secret' ];
 	}
 
 	/**
@@ -63,8 +59,8 @@ class Credentials {
 	 */
 	public function clear_credentials()
 	{
-		delete_option( Credentials::OPTION_TOKEN );
-		delete_option( Credentials::OPTION_SECRET_KEY );
+		delete_option( 'wp_mango_credentials_secret' );
+		delete_option( 'wp_mango_credentials_token' );
 	}
 
 	/**
@@ -72,10 +68,10 @@ class Credentials {
 	 */
 	protected function generate_token()
 	{
-		if ( $this->get_token() )
+		if ( ! $this->setup->options[ 'wp_mango_credentials_token' ] )
 			return;
-
-		update_option( Credentials::OPTION_TOKEN , uniqid( '', true ) );
+		
+		update_option( 'wp_mango_credentials_token' , uniqid( '', true ) );
 	}
 
 	/**
@@ -83,9 +79,9 @@ class Credentials {
 	 */
 	protected function generate_secret()
 	{
-		if ( $this->get_secret() )
+		if ( ! $this->setup->options[ 'wp_mango_credentials_secret' ] )
 			return;
-
-		update_option( Credentials::OPTION_SECRET_KEY , bin2hex( random_bytes( 23 ) ) );
+		
+		update_option( 'wp_mango_credentials_secret' , bin2hex( random_bytes( 23 ) ) );
 	}
 }

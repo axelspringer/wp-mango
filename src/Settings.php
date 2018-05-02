@@ -59,11 +59,10 @@ class Settings extends AbstractSettings {
         'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
-        'description'  => __( '' ),
+        'description'  => __( __TRANSLATE__::SETTINGS_DESCRIPTION_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
         'type'         => 'dropdown', // text, textarea, password, checkbox
         'option_group' => $this->page,
         'options'       => array( Role::NONE => RoleName::NONE, Role::EDITOR => RoleName::EDITOR )
-
       );
       $role = new Field( $args );
 
@@ -77,7 +76,7 @@ class Settings extends AbstractSettings {
       $credentials = new Section( $args );
 
       $args             = array(
-        'id'          => Credentials::OPTION_TOKEN,
+        'id'          => 'wp_mango_credentials_token',
         'title'       => __( __TRANSLATE__::SETTINGS_FIELD_TOKEN, __PLUGIN__::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
@@ -89,7 +88,7 @@ class Settings extends AbstractSettings {
       $credentials_user = new Field( $args );
 
       $args               = array(
-        'id'          => Credentials::OPTION_SECRET_KEY,
+        'id'          => 'wp_mango_credentials_secret',
         'title'       => __( __TRANSLATE__::SETTINGS_FIELD_SECRET, __PLUGIN__::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
@@ -151,10 +150,13 @@ class Settings extends AbstractSettings {
      */
     public function callback_info( $args )
     {
+        $option = get_option( $args['id'] );
+        $env = getenv( strtoupper( $args['id'] ) );
+
         ?>
-        <input type="hidden" name="<?= $args['id']?>" id="<?= $args['id']?>" value="<?= get_option($args['id']) ?>">
+        <input type="hidden" name="<?= $args['id']?>" id="<?= $args['id']?>" value="<?= get_option( $args['id'] ) ?>">
         <p>
-            <?= get_option( $args['id'] ) ?>
+            <?= ! $env ? $option : $env ?>
         </p>
         <?php
     }

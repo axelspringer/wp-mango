@@ -50,7 +50,7 @@ class Plugin extends AbstractPlugin
         }
 
         // Credentials
-        $this->credentials = new Credentials();
+        $this->credentials = new Credentials( $this->setup );
 		$this->credentials->generate_credentials();
 
         // load hooks

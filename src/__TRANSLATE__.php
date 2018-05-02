@@ -21,4 +21,5 @@ abstract class __TRANSLATE__
     const SETTINGS_FIELD_REDIRECT       = 'Redirect';
     
     const SETTINGS_FIELD_ROLE_CAPABILITIES = 'Capabilities';
+    const SETTINGS_DESCRIPTION_ROLE_CAPABILITIES = 'The capabilities the REST API should have';
 }
