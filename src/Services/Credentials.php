@@ -68,9 +68,10 @@ class Credentials {
 	 */
 	protected function generate_token()
 	{
-		if ( ! $this->setup->options[ 'wp_mango_credentials_token' ] )
+		if ( $this->setup->options[ 'wp_mango_credentials_token' ] )
 			return;
 		
+		exit("test");
 		update_option( 'wp_mango_credentials_token' , uniqid( '', true ) );
 	}
 
@@ -79,9 +80,10 @@ class Credentials {
 	 */
 	protected function generate_secret()
 	{
-		if ( ! $this->setup->options[ 'wp_mango_credentials_secret' ] )
+		if ( $this->setup->options[ 'wp_mango_credentials_secret' ] )
 			return;
 		
+		exit("test");
 		update_option( 'wp_mango_credentials_secret' , bin2hex( random_bytes( 23 ) ) );
 	}
 }
