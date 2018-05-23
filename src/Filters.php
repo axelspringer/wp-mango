@@ -71,7 +71,7 @@ class Filters
 
         $rel_url = $url['path']; // use path
 
-        if ( ! $url['query'] !== '' ) {
+        if ( $url['query'] !== '' ) {
             $rel_url .= '?' . $url['query']; // attach query strings
         }
 
