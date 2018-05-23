@@ -21,12 +21,18 @@ class Plugin extends AbstractPlugin
     public $credentials;
 
     /**
-     * Filter
+     * Actions
      *
      * @var Actions
      */
     public $actions;
 
+    /**
+     * Filters
+     * 
+     * @var Filters
+     */
+    public $filters;
 
     /**
      * Initializes the plugin
@@ -64,6 +70,7 @@ class Plugin extends AbstractPlugin
     public function load_hooks()
     {
         $this->actions = new Actions( $this->setup, $this->credentials );
+        $this->filters = new Filters( $this->setup );
     }
 
     /**

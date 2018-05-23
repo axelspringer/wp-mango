@@ -55,6 +55,17 @@ class Settings extends AbstractSettings {
       $enabled = new Field( $args );
 
       $args    = array(
+        'id'           => 'wp_mango_rewrite_url',
+        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_REWRITE_URL, __PLUGIN__::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_general',
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => $this->page,
+      );
+      $rewrite_url = new Field( $args );
+
+      $args    = array(
         'id'           => 'wp_mango_role',
         'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
         'page'         => $this->page,

@@ -45,7 +45,8 @@ class Actions
         // init REST API
         add_action( 'rest_api_init', [&$this, 'rest_api_init'] );
         // redirect on /wp-admin/
-        add_action ( 'template_redirect', [&$this, 'redirect_url'] );
+        add_action( 'template_redirect', [&$this, 'redirect_url'] );
+        // register to replace links
     }
 
     /**
@@ -83,7 +84,7 @@ class Actions
 
         if ( $this->setup->options['wp_mango_posts'] ) // posts
 		    $this->routes->configure( new Posts() );
-	}
+    }
 
     /**
      * noop
