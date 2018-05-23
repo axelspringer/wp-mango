@@ -67,11 +67,11 @@ class Filters
         $url = parse_url( $url ); // should be replaced
         if ( $url === false ) { // break on wrong url
             return $url;
-        }
+		}
 
         $rel_url = $url['path']; // use path
 
-        if ( $url['query'] !== '' ) {
+        if ( ! empty( $url['query'] ) ) {
             $rel_url .= '?' . $url['query']; // attach query strings
         }
 
