@@ -63,14 +63,18 @@ class Filters
      * Rewrite url
      */
     public function dynamic_relative_url( $url, $post )
-    {
+    {        
+        if ( strpos( $url, get_site_url() ) === false ) {
+			return $url;
+		}
+
         $url = parse_url( $url ); // should be replaced
         if ( $url === false ) { // break on wrong url
             return $url;
 		}
 
-        $rel_url = $url['path']; // use path
 
+        $rel_url = $url['path']; // use path
         if ( ! empty( $url['query'] ) ) {
             $rel_url .= '?' . $url['query']; // attach query strings
         }
