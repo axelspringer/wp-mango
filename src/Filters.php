@@ -27,11 +27,18 @@ class Filters
      */
     public $link_filters = [
 	    'attachment_link',
-	    'page_link',
+        'page_link',
         'category_link',
         'get_the_guid',
         'post_link',
         'post_type_link'
+    ];
+
+    /**
+     * Category Filters
+     */
+    public $category_link_filters = [
+        'pre_term_link'
     ];
 
     /**
@@ -46,6 +53,7 @@ class Filters
         if ( $this->setup->options['wp_mango_rewrite_url'] &&
             ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {
                 $this->add_filters( $this->link_filters, array( &$this, 'dynamic_relative_url' ) );
+                $this->add_filters( $this->category_link_filters, array( &$this, 'category_link' ) );
             }
     }
 
@@ -61,10 +69,29 @@ class Filters
     }
 
     /**
+     * Category Link Filter
+     */
+    public function category_link( $url, $cat )
+    {
+        $category_base = 'category';
+        $base = get_option( 'category_base', false );
+
+        if ( $base === false || $base === '' ) {
+            return $this->dynamic_relative_url( str_replace( '/' . $category_base, '', $url ), null );
+        }
+
+        return $url;
+    }
+
+    /**
+     * 
+     */
+
+    /**
      * Rewrite url
      */
     public function dynamic_relative_url( $url, $post )
-    {        
+    {
         if ( strpos( $url, get_site_url() ) === false ) {
 			return $url;
 		}
@@ -80,7 +107,7 @@ class Filters
             $rel_url .= '?' . $url['query']; // attach query strings
         }
 
-        return $rel_url;
+        return untrailingslashit( $rel_url );
     }
 
     /**
