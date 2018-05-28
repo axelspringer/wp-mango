@@ -26,11 +26,12 @@ class Filters
      * Post Filters
      */
     public $link_filters = [
-        'post_link',
-	    'page_link',
 	    'attachment_link',
-        'post_type_link',
-        'get_the_guid'
+	    'page_link',
+        'category_link',
+        'get_the_guid',
+        'post_link',
+        'post_type_link'
     ];
 
     /**
