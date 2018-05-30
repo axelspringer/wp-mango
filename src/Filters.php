@@ -41,11 +41,18 @@ class Filters
     {
         // use setup
         $this->setup = $setup;
+
         // adding post url filters
-        if ( $this->setup->options['wp_mango_rewrite_url'] &&
-            ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {
+        if ( $this->setup->options['wp_mango_rewrite_url'] )
+        {
+            if ( ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) )
+            {
                 $this->add_filters( $this->link_filters, array( &$this, 'dynamic_relative_url' ) );
+                $this->add_filters( $this->category_link_filters, array( &$this, 'category_link' ) );
             }
+
+            $this->add_filters( array( 'wp_get_nav_menu_items' ), array( &$this, 'add_stock_price' ) );
+        }
     }
 
     /**
@@ -84,5 +91,16 @@ class Filters
     protected function __clone()
     {
 
+    }
+
+    public function add_stock_price( $items )
+    {
+        foreach ($items as &$item) {
+            $show_stock_price = get_field( 'nav_menus_show_stock_price', $item );
+
+            $item->show_stock_price = $show_stock_price ? 1 : 0;
+        }
+
+        return $items;
     }
 }
