@@ -4,7 +4,7 @@ namespace AxelSpringer\WP\Mango;
 
 use AxelSpringer\WP\Bootstrap\User\Role;
 
-abstract class __OPTION__
+abstract class Option
 {
     // General
     const WP_MANGO_ENABLED          = false;
@@ -14,6 +14,7 @@ abstract class __OPTION__
     const WP_MANGO_POSTS            = false;
     const WP_MANGO_REDIRECT         = false;
     const WP_MANGO_REWRITE_URL      = false;
+    const WP_MANGO_PREVIEW_URL      = false;
 
     // Role
     const WP_MANGO_ROLE             = Role::EDITOR;

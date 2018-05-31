@@ -26,15 +26,15 @@ class Settings extends AbstractSettings {
       // general
       $args     = array(
         'id'          => 'wp_mango_general',
-        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_GENERAL, __PLUGIN__::TEXT_DOMAIN ),
-        'page'        => __PLUGIN__::SETTINGS_PAGE,
-        'description' => __( 'These settings control the general setup of the Mango plugin.', __PLUGIN__::TEXT_DOMAIN ),
+        'title'       => __( Translate::SETTINGS_SECTION_GENERAL, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
+        'description' => __( 'These settings control the general setup of the Mango plugin.', Plugin::TEXT_DOMAIN ),
       );
       $settings = new Section( $args );
 
       $args    = array(
         'id'           => 'wp_mango_enabled',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ENABLED, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_ENABLED, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
         'description'  => __( '' ),
@@ -45,7 +45,7 @@ class Settings extends AbstractSettings {
 
       $args    = array(
         'id'           => 'wp_mango_redirect',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_REDIRECT, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_REDIRECT, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
         'description'  => __( '' ),
@@ -56,7 +56,7 @@ class Settings extends AbstractSettings {
 
       $args    = array(
         'id'           => 'wp_mango_rewrite_url',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_REWRITE_URL, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_REWRITE_URL, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
         'description'  => __( '' ),
@@ -67,10 +67,10 @@ class Settings extends AbstractSettings {
 
       $args    = array(
         'id'           => 'wp_mango_role',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_ROLE_CAPABILITIES, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
-        'description'  => __( __TRANSLATE__::SETTINGS_DESCRIPTION_ROLE_CAPABILITIES, __PLUGIN__::TEXT_DOMAIN ),
+        'description'  => __( Translate::SETTINGS_DESCRIPTION_ROLE_CAPABILITIES, Plugin::TEXT_DOMAIN ),
         'type'         => 'dropdown', // text, textarea, password, checkbox
         'option_group' => $this->page,
         'options'       => array( Role::NONE => RoleName::NONE, Role::EDITOR => RoleName::EDITOR )
@@ -80,15 +80,15 @@ class Settings extends AbstractSettings {
       // credentials
       $args        = array(
         'id'          => 'wp_mango_credentials',
-        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_CREDENTIALS, __PLUGIN__::TEXT_DOMAIN ),
-        'page'        => __PLUGIN__::SETTINGS_PAGE,
+        'title'       => __( Translate::SETTINGS_SECTION_CREDENTIALS, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
         'description' => 'These are authentication credentials.'
       );
       $credentials = new Section( $args );
 
       $args             = array(
         'id'          => 'wp_mango_credentials_token',
-        'title'       => __( __TRANSLATE__::SETTINGS_FIELD_TOKEN, __PLUGIN__::TEXT_DOMAIN ),
+        'title'       => __( Translate::SETTINGS_FIELD_TOKEN, Plugin::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
         'description' => __( 'User' ),
@@ -100,7 +100,7 @@ class Settings extends AbstractSettings {
 
       $args               = array(
         'id'          => 'wp_mango_credentials_secret',
-        'title'       => __( __TRANSLATE__::SETTINGS_FIELD_SECRET, __PLUGIN__::TEXT_DOMAIN ),
+        'title'       => __( Translate::SETTINGS_FIELD_SECRET, Plugin::TEXT_DOMAIN ),
         'page'        => $this->page,
         'section'     => 'wp_mango_credentials',
         'description' => __( 'Secret' ),
@@ -110,42 +110,63 @@ class Settings extends AbstractSettings {
       );
       $credentials_secret = new Field( $args );
 
+      // credentials
+      $args        = array(
+        'id'          => 'wp_mango_preview',
+        'title'       => __( Translate::SETTINGS_SECTION_PREVIEW, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
+        'description' => 'These are the settings for the Preview.'
+      );
+      $preview = new Section( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_preview_url',
+        'title'        => __( Translate::SETTINGS_FIELD_PREVIEW_URL, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_preview',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'text', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $preview_url  = new Field( $args );
+
       // resources
       $args      = array(
         'id'          => 'wp_mango_resources',
-        'title'       => __( __TRANSLATE__::SETTINGS_SECTION_RESOURCES, __PLUGIN__::TEXT_DOMAIN ),
-        'page'        => __PLUGIN__::SETTINGS_PAGE,
+        'title'       => __( Translate::SETTINGS_SECTION_RESOURCES, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
         'description' => 'These are all the additional resources Mango provides to Wordpress.',
       );
       $resources = new Section( $args );
 
       $args = array(
         'id'           => 'wp_mango_posts',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_POSTS, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_POSTS, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_resources',
         'option_group' => $this->page,
         'description'  => __( '' ),
         'type'         => 'checkbox', // text, textarea, password, checkbox
-        'option_group' => __PLUGIN__::SETTINGS_PAGE,
+        'option_group' => Plugin::SETTINGS_PAGE,
       );
       $posts  = new Field( $args );
 
       $args = array(
         'id'           => 'wp_mango_nav',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_NAVIGATION, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_NAVIGATION, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_resources',
         'option_group' => $this->page,
         'description'  => __( '' ),
         'type'         => 'checkbox', // text, textarea, password, checkbox
-        'option_group' => __PLUGIN__::SETTINGS_PAGE,
+        'option_group' => Plugin::SETTINGS_PAGE,
       );
       $nav  = new Field( $args );
 
       $args       = array(
         'id'           => 'wp_mango_customizer',
-        'title'        => __( __TRANSLATE__::SETTINGS_FIELD_CUSTOMIZER, __PLUGIN__::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_CUSTOMIZER, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_resources',
         'description'  => __( '' ),

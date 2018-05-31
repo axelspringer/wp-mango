@@ -25,9 +25,9 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	$loader->addPsr4( 'AxelSpringer\\WP\\Mango\\', __DIR__ . '/src' );
 }
 
-use \AxelSpringer\WP\Mango\__WP__ as WP;
-use \AxelSpringer\WP\Mango\__PLUGIN__ as Plugin;
-use \AxelSpringer\WP\Mango\Plugin as Mango;
+use \AxelSpringer\WP\Mango\WP;
+use \AxelSpringer\WP\Mango\Plugin;
+use \AxelSpringer\WP\Mango\Mango;
 
 // bootstrap
 if ( ! defined( WP::VERSION ) )

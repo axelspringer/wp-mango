@@ -4,7 +4,7 @@ namespace AxelSpringer\WP\Mango\Routes;
 
 use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 use AxelSpringer\WP\Mango\Services\Credentials;
-use AxelSpringer\WP\Mango\__PLUGIN__;
+use AxelSpringer\WP\Mango\Plugin;
 
 /**
  * Class Routes
@@ -49,7 +49,7 @@ class Routes {
 	 */
 	public function get( string $route, callable $callback ): bool {
 		return register_rest_route(
-			__PLUGIN__::NAMESPACE,
+			Plugin::NAMESPACE,
 			$route,
 			[
 				'methods'             => \WP_REST_Server::READABLE,

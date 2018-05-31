@@ -2,7 +2,7 @@
 
 namespace AxelSpringer\WP\Mango;
 
-abstract class __WP__
+abstract class WP
 {
     // constants
     const VERSION   = 'WP_MANGO_VERSION';

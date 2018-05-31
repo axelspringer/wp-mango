@@ -6,6 +6,7 @@ use AxelSpringer\WP\Mango\Services\Credentials;
 use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 use AxelSpringer\WP\Mango\Routes\Customizer;
 use AxelSpringer\WP\Mango\Routes\Nav;
+use AxelSpringer\WP\Mango\Helpers;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
 
@@ -55,6 +56,20 @@ class Filters
                 $this->add_filters( $this->link_filters, array( &$this, 'dynamic_relative_url' ) );
                 $this->add_filters( $this->category_link_filters, array( &$this, 'category_link' ) );
             }
+    
+        $this->add_filters( array( 'post_link', 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
+    }
+
+    /**
+     * Preview post link
+     */
+    public function preview_post_link( string $link ): string
+    {
+        if ( empty( $this->setup->options['wp_mango_preview_url'] ) ) {
+            return $link; // just return the link
+        }
+
+        return Helpers::replace_url( $link, $this->setup->options['wp_mango_preview_url'] );
     }
 
     /**
@@ -84,10 +99,6 @@ class Filters
     }
 
     /**
-     * 
-     */
-
-    /**
      * Rewrite url
      */
     public function dynamic_relative_url( $url, $post )
@@ -101,7 +112,6 @@ class Filters
             return $url;
 		}
 
-
         $rel_url = $url['path']; // use path
         if ( ! empty( $url['query'] ) ) {
             $rel_url .= '?' . $url['query']; // attach query strings
@@ -109,6 +119,10 @@ class Filters
 
         return untrailingslashit( $rel_url );
     }
+
+    /**
+     * Build url
+     */
 
     /**
      * noop
