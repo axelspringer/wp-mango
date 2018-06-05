@@ -19,12 +19,31 @@ class Posts implements Route {
 	protected $routes;
 
 	/**
+	 * Configure routes
+	 * 
 	 * @param Routes $routes
 	 */
 	public function configure( Routes $routes ) {
 		$this->routes = $routes;
 
 		$routes->get( $this->base . '/post-by-permalink', [ $this, 'post_by_permalink' ] );
+		$routes->get( $this->base . '/post/(?P<id>\d+)', [ $this, 'get_post' ] );
+	}
+
+	/**
+	 * Get all posts to an id
+	 * 
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function get_post( \WP_REST_Request $request ): \WP_REST_Response {
+		$ctrl    = new \WP_REST_Posts_Controller();
+		$request = new \WP_REST_Request();
+		//$_GET['_embed'] = true;
+		$request->set_param( 'id', $post->ID );
+
+		return apply_filters( 'wp_mango_post', $ctrl->get_item( get_post( $data[ 'id' ] ) ) );
 	}
 
 	/**
