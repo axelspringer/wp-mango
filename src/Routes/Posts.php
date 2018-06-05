@@ -38,12 +38,22 @@ class Posts implements Route {
 	 * @return \WP_REST_Response
 	 */
 	public function get_post( \WP_REST_Request $request ): \WP_REST_Response {
-		$ctrl    = new \WP_REST_Posts_Controller();
+		
+		$query_args = array(
+			'p'         => $request->get_param( 'id' ), // ID of a page, post, or custom type
+			'post_type' => 'any'
+		);
+		$query = new \WP_Query( $query_args );
+
+		if ( empty ( $query->posts ) && ! $query->is_singular )
+			return $this->routes->response_404();
+
+		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
 		$request = new \WP_REST_Request();
 		//$_GET['_embed'] = true;
-		$request->set_param( 'id', $post->ID );
+		$request->set_param( 'id', $query->post->ID );
 
-		return apply_filters( 'wp_mango_post', $ctrl->get_item( get_post( $data[ 'id' ] ) ) );
+		return apply_filters( 'wp_mango_post', $ctrl->get_item( $request ) );
 	}
 
 	/**
