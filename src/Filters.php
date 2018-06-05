@@ -57,7 +57,22 @@ class Filters
                 $this->add_filters( $this->category_link_filters, array( &$this, 'category_link' ) );
             }
     
-        $this->add_filters( array( 'post_link', 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
+        $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 10, 4 );
+        $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
+    }
+
+    /**
+     * Preview post link
+     */
+    public function get_sample_permalink( $permalink, $post, $title, $name )
+    {
+        if ( empty( $this->setup->options['wp_mango_preview_url'] ) ) {
+            return $permalink; // just return the link
+        }
+
+        $permalink[0] = Helpers::replace_url( $permalink[0], $this->setup->options['wp_mango_preview_url'] );
+
+        return $permalink;
     }
 
     /**

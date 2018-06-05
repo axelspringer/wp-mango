@@ -38,7 +38,6 @@ class Posts implements Route {
 	 * @return \WP_REST_Response
 	 */
 	public function get_post( \WP_REST_Request $request ): \WP_REST_Response {
-		
 		$query_args = array(
 			'p'         => $request->get_param( 'id' ), // ID of a page, post, or custom type
 			'post_type' => 'any'

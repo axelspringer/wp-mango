@@ -46,7 +46,6 @@ class Actions
         add_action( 'rest_api_init', [&$this, 'rest_api_init'] );
         // redirect on /wp-admin/
         add_action( 'template_redirect', [&$this, 'redirect_url'] );
-        // register to replace links
     }
 
     /**
