@@ -40,10 +40,10 @@ if ( ! defined( WP::SLUG ) )
     define( WP::SLUG, Plugin::SLUG );
 
 // activation
-register_activation_hook( __FILE__, '\AxelSpringer\WP\Mango\Plugin::activation' );
+register_activation_hook( __FILE__, '\AxelSpringer\WP\Mango\Mango::activation' );
 
 // deactivation
-register_deactivation_hook( __FILE__, '\AxelSpringer\WP\Mango\Plugin::deactivation' );
+register_deactivation_hook( __FILE__, '\AxelSpringer\WP\Mango\Mango::deactivation' );
 
 // run
 global $wp_mango; // this bootstraps the plugin, and provides a global accessible helper
