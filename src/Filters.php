@@ -57,34 +57,45 @@ class Filters
                 $this->add_filters( $this->category_link_filters, array( &$this, 'category_link' ) );
             }
     
+        // $this->add_filters( array( 'get_preview_post_link' ), array( &$this, 'get_preview_post_link' ), 10, 4 );
         $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 10, 4 );
         $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
+        $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 10, 2 );
+    }
+
+     /**
+     * Preview post link
+     */
+    public function post_link( $url, $post )
+    {
+        if ( ! is_admin() || empty( $this->setup->options['wp_mango_preview_url'] ) )
+            return $url; // just return if not preview, or if not admin
+
+        return Helpers::replace_url( $url, $this->setup->options['wp_mango_preview_url'] );
     }
 
     /**
      * Preview post link
      */
-    public function get_sample_permalink( $permalink, $post, $title, $name )
+    public function get_sample_permalink( $url, $post, $title, $name )
     {
-        if ( empty( $this->setup->options['wp_mango_preview_url'] ) ) {
-            return $permalink; // just return the link
-        }
+        if ( empty( $this->setup->options['wp_mango_preview_url'] ) )
+            return $url; // just return the link
 
-        $permalink[0] = Helpers::replace_url( $permalink[0], $this->setup->options['wp_mango_preview_url'] );
+        $url[0] = Helpers::replace_url( $url[0], $this->setup->options['wp_mango_preview_url'] );
 
-        return $permalink;
+        return $url;
     }
 
     /**
      * Preview post link
      */
-    public function preview_post_link( string $link ): string
+    public function preview_post_link( string $url ): string
     {
-        if ( empty( $this->setup->options['wp_mango_preview_url'] ) ) {
-            return $link; // just return the link
-        }
+        if ( empty( $this->setup->options['wp_mango_preview_url'] ) )
+            return $url; // just return the link
 
-        return Helpers::replace_url( $link, $this->setup->options['wp_mango_preview_url'] );
+        return Helpers::replace_url( $url, $this->setup->options['wp_mango_preview_url'] );
     }
 
     /**
