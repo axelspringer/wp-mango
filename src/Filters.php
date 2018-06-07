@@ -58,9 +58,9 @@ class Filters
             }
     
         // $this->add_filters( array( 'get_preview_post_link' ), array( &$this, 'get_preview_post_link' ), 10, 4 );
-        $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 10, 4 );
+        $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 99, 4 );
         $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
-        $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 10, 2 );
+        $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 99, 2 );
     }
 
      /**
@@ -145,10 +145,6 @@ class Filters
 
         return untrailingslashit( $rel_url );
     }
-
-    /**
-     * Build url
-     */
 
     /**
      * noop
