@@ -15,6 +15,7 @@ abstract class Option
     const WP_MANGO_REDIRECT         = false;
     const WP_MANGO_REWRITE_URL      = false;
     const WP_MANGO_PREVIEW_URL      = false;
+    const WP_MANGO_HEALTH_CHECK     = false;
 
     // Role
     const WP_MANGO_ROLE             = Role::EDITOR;

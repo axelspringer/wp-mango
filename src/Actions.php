@@ -46,6 +46,55 @@ class Actions
         add_action( 'rest_api_init', [&$this, 'rest_api_init'] );
         // redirect on /wp-admin/
         add_action( 'template_redirect', [&$this, 'redirect_url'] );
+        // enable health route
+        add_action( 'init', array( &$this, 'rewrite_init_health' ) );
+        // go health
+        add_action( 'template_redirect', array( &$this, 'get_health' ), 0 );
+    }
+
+    /**
+     * Enable healthz
+     * 
+     */
+    public function rewrite_init_health() {
+        global $wp_rewrite;
+
+        if ( ! $this->setup->options['wp_mango_health_check'] )
+            return;
+
+        $url = '^health';
+        $query_var = 'health';
+        $rewrite_rule = $url . '/?$';
+
+        add_rewrite_rule(
+          $rewrite_rule,
+          'index.php?' . $query_var . '=true',
+          'top'
+        );
+
+        $rules  = get_option( 'rewrite_rules' );
+        if ( ! isset( $rules[$rewrite_rule] ) ) {
+          global $wp_rewrite;
+          $wp_rewrite->flush_rules();
+        }
+    }
+
+    /**
+     * 
+     */
+    public function get_health() {
+        if ( ! $this->setup->options['wp_mango_health_check'] )
+            return;
+
+        $is_health = get_query_var( 'health', false );
+        if ( true != $is_health ) {
+          return;
+        }
+
+        $data = array( 'status' => 'ok' );
+        $response = new \WP_REST_Response( $data );
+
+        exit( json_encode( $response->data ) );
     }
 
     /**

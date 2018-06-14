@@ -61,9 +61,18 @@ class Filters
         $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 99, 4 );
         $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
         $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 99, 2 );
+        $this->add_filters( array( 'query_vars' ), array( &$this, 'add_query_vars' ) );
     }
 
-     /**
+    /**
+     * 
+     */
+    public function add_query_vars( $query_vars ) {
+        $vars[] = 'health';
+        return $vars;
+    }
+
+    /**
      * Preview post link
      */
     public function post_link( $url, $post )

@@ -77,6 +77,17 @@ class Settings extends AbstractSettings {
       );
       $role = new Field( $args );
 
+      $args    = array(
+        'id'           => 'wp_mango_health_check',
+        'title'        => __( Translate::SETTINGS_FIELD_HEALTH, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_general',
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => $this->page,
+      );
+      $health = new Field( $args );
+
       // credentials
       $args        = array(
         'id'          => 'wp_mango_credentials',

@@ -22,6 +22,7 @@ abstract class Translate
 	const SETTINGS_FIELD_REDIRECT       = 'Redirect';
 	const SETTINGS_FIELD_REWRITE_URL    = 'Rewrite URL';
 	const SETTINGS_FIELD_PREVIEW_URL    = 'Preview URL';
+	const SETTINGS_FIELD_HEALTH			= 'Health Check';
 	
 	const SETTINGS_FIELD_ROLE_CAPABILITIES = 'Capabilities';
 	const SETTINGS_DESCRIPTION_ROLE_CAPABILITIES = 'The capabilities the REST API should have';
