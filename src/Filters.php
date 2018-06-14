@@ -67,9 +67,12 @@ class Filters
     /**
      * 
      */
-    public function add_query_vars( $query_vars ) {
-        $vars[] = 'health';
-        return $vars;
+    public function add_query_vars( $query_vars )
+    {
+        if ( ! empty( $this->setup->options['wp_mango_health_check'] ) ) {
+            $query_vars[] = 'health';
+        }
+        return $query_vars;
     }
 
     /**
