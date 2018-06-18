@@ -38,20 +38,28 @@ class Posts implements Route {
 	 * @return \WP_REST_Response
 	 */
 	public function get_post( \WP_REST_Request $request ): \WP_REST_Response {
+		$post_status = array( 'publish' ); // by default only show publish
+
+		if ( $request['preview'] == 'true' ) { // use query parameter to indicate preview
+			$post_status = array_merge( $post_status, array( 'draft', 'pending', 'future' ) );
+		}
+
 		$query_args = array(
 			'p'         => $request->get_param( 'id' ), // ID of a page, post, or custom type
-			'post_type' => 'any'
+			'post_type' => 'any', // find all posts
+			'post_status' => $post_status
 		);
+
 		$query = new \WP_Query( $query_args );
 
-		if ( empty ( $query->posts ) && ! $query->is_singular )
-			return $this->routes->response_404();
+		if ( empty ( $query->posts ) || ! $query->is_singular )
+			return $this->routes->response_404(); // this will return null
 
 		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
 		$request = new \WP_REST_Request();
-		//$_GET['_embed'] = true;
 		$request->set_param( 'id', $query->post->ID );
 
+		// allow to filter mango post
 		return apply_filters( 'wp_mango_post', $ctrl->get_item( $request ) );
 	}
 

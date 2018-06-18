@@ -44,12 +44,12 @@ class Actions
 
         // init REST API
         add_action( 'rest_api_init', [&$this, 'rest_api_init'] );
-        // redirect on /wp-admin/
-        add_action( 'template_redirect', [&$this, 'redirect_url'] );
         // enable health route
         add_action( 'init', array( &$this, 'rewrite_init_health' ) );
         // go health
-        add_action( 'template_redirect', array( &$this, 'get_health' ), 0 );
+        add_action( 'template_redirect', array( &$this, 'get_health' ), 0 ); // set highest priority
+        // redirect on /wp-admin/
+        add_action( 'template_redirect', [&$this, 'redirect_url'] );
     }
 
     /**
@@ -103,7 +103,7 @@ class Actions
      */
     public function redirect_url()
     {
-        if ( ! $this->setup->options['wp_mango_redirect'] )
+        if ( empty( $this->setup->options['wp_mango_redirect'] ) )
             return;
 
         if ( ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {

@@ -31,7 +31,7 @@ class Routes {
 		$this->credentials = $credentials;
 		$this->setup = $setup;
 
-		add_filter( 'rest_authentication_errors', [ $this, 'permissions_check' ] );
+		add_filter( 'rest_authentication_errors', [ &$this, 'permissions_check' ] );
 	}
 
 	/**
