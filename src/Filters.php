@@ -30,7 +30,7 @@ class Filters
 	    'attachment_link',
         'page_link',
         'category_link',
-        'tag_link',
+        'term_link',
         'get_the_guid',
         'post_link',
         'post_type_link'
