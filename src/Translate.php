@@ -24,6 +24,9 @@ abstract class Translate
 	const SETTINGS_FIELD_REWRITE_URL    = 'Rewrite URL';
 	const SETTINGS_FIELD_PREVIEW_URL    = 'Preview URL';
 	const SETTINGS_FIELD_HEALTH			= 'Health Check';
+	const SETTINGS_FIELD_PREVIEW 		= 'Preview';
+	const SETTINGS_FIELD_PREVIEW_SAMPLE			= 'Example';
+	const SETTINGS_FIELD_PREVIEW_SAMPLE_URL		= 'Example Url';
 
 	// Filters
 	const SETTINGS_FIELD_FILTER_PAGE_LINK = 'Flatten Page Links';

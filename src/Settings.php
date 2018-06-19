@@ -131,16 +131,52 @@ class Settings extends AbstractSettings {
       $preview = new Section( $args );
 
       $args = array(
+        'id'           => 'wp_mango_preview',
+        'title'        => __( Translate::SETTINGS_FIELD_PREVIEW, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_preview',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $preview_enable  = new Field( $args );
+
+      $args = array(
         'id'           => 'wp_mango_preview_url',
         'title'        => __( Translate::SETTINGS_FIELD_PREVIEW_URL, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_preview',
         'option_group' => $this->page,
-        'description'  => __( '' ),
+        'description'  => __( 'This is the preview url (e.g. https://example.com/%lang%/preview/%id%)' ),
         'type'         => 'text', // text, textarea, password, checkbox
         'option_group' => Plugin::SETTINGS_PAGE,
       );
       $preview_url  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_preview_sample',
+        'title'        => __( Translate::SETTINGS_FIELD_PREVIEW_SAMPLE, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_preview',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $sample  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_preview_sample_url',
+        'title'        => __( Translate::SETTINGS_FIELD_PREVIEW_SAMPLE_URL, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_preview',
+        'option_group' => $this->page,
+        'description'  => __( 'This is the sample url (e.g. https://example.com)' ),
+        'type'         => 'text', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $sample_url  = new Field( $args );
 
       // resources
       $args      = array(

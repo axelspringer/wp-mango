@@ -16,6 +16,9 @@ abstract class Option
     const WP_MANGO_REWRITE_URL      = false;
     const WP_MANGO_PREVIEW_URL      = false;
     const WP_MANGO_HEALTH_CHECK     = false;
+    const WP_MANGO_PREVIEW          = false;
+    const WP_MANGO_PREVIEW_SAMPLE   = false;
+    const WP_MANGO_PREVIEW_SAMPLE_URL = false;
 
     // Filters
     const WP_MANGO_FILTERS_PAGE_LINK = false;

@@ -63,7 +63,7 @@ class Filters
     
         // $this->add_filters( array( 'get_preview_post_link' ), array( &$this, 'get_preview_post_link' ), 10, 4 );
         $this->add_filters( array( 'get_sample_permalink' ), array( &$this, 'get_sample_permalink' ), 99, 4 );
-        $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
+        $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ), 99, 2 );
         $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 99, 2 );
         $this->add_filters( array( 'query_vars' ), array( &$this, 'add_query_vars' ) );
             
@@ -96,6 +96,7 @@ class Filters
             return $url;
         }
 
+        // we try to elimnate the path of the url
         $url['path'] = end( explode( '/', $url['path'] ) );
         return leadingslashit( unparse_url( $url ) );
     }
@@ -105,10 +106,10 @@ class Filters
      */
     public function post_link( $url, $post )
     {
-        if ( ! is_admin() || empty( $this->setup->options['wp_mango_preview_url'] ) )
+        if ( ! is_admin() || empty( $this->setup->options['wp_mango_sample_url'] ) )
             return $url; // just return if not preview, or if not admin
 
-        return Helpers::replace_url( $url, $this->setup->options['wp_mango_preview_url'] );
+        return Helpers::replace_url( $url, $this->setup->options['wp_mango_sample_url'] );
     }
 
     /**
@@ -116,10 +117,12 @@ class Filters
      */
     public function get_sample_permalink( $url, $post, $title, $name )
     {
-        if ( empty( $this->setup->options['wp_mango_preview_url'] ) )
+        if ( empty( $this->setup->options['wp_mango_preview_sample'] )
+            || empty( $this->setup->options['wp_mango_preview_sample_url'] ) ) {
             return $url; // just return the link
+        }
 
-        $url[0] = Helpers::replace_url( $url[0], $this->setup->options['wp_mango_preview_url'] );
+        $url[0] = Helpers::replace_url( $url[0], $this->setup->options['wp_mango_preview_sample_url'] );
 
         return $url;
     }
@@ -127,12 +130,27 @@ class Filters
     /**
      * Preview post link
      */
-    public function preview_post_link( string $url ): string
+    public function preview_post_link( string $url, $post ): string
     {
-        if ( empty( $this->setup->options['wp_mango_preview_url'] ) )
-            return $url; // just return the link
+        if ( empty( $this->setup->options['wp_mango_preview'] )
+            ||  empty( $this->setup->options['wp_mango_preview_url'] ) ) {
+                return $url; // just return the link
+            }
+        
+        // rules to replace
+        $rewrite_rules = [
+            '%lang%'    => 'de',
+            '%id%'      => $post->ID
+        ];
 
-        return Helpers::replace_url( $url, $this->setup->options['wp_mango_preview_url'] );
+        $url = $this->setup->options['wp_mango_preview_url'];
+
+        // replace in preview
+        foreach( $rewrite_rules as $rule => $replace ) {
+            $url = str_replace( $rule, $replace, $url );
+        }
+ 
+        return $url; // just return url
     }
 
     /**
