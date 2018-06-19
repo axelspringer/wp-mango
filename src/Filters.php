@@ -146,7 +146,7 @@ class Filters
         
         // rules to replace
         $rewrite_rules = [
-            '%lang%'    => 'de',
+            '%lang%'    => $post->lang,
             '%id%'      => $post->ID
         ];
 
