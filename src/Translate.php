@@ -12,6 +12,7 @@ abstract class Translate
 	const SETTINGS_SECTION_CREDENTIALS  = 'Credentials';
 	const SETTINGS_SECTION_RESOURCES    = 'Resources';
 	const SETTINGS_SECTION_PREVIEW    	= 'Preview';
+	const SETTINGS_SECTION_FILTERS		= 'Filters';
 	
 	const SETTINGS_FIELD_ENABLED        = 'Enabled';
 	const SETTINGS_FIELD_TOKEN          = 'Token';
@@ -23,6 +24,9 @@ abstract class Translate
 	const SETTINGS_FIELD_REWRITE_URL    = 'Rewrite URL';
 	const SETTINGS_FIELD_PREVIEW_URL    = 'Preview URL';
 	const SETTINGS_FIELD_HEALTH			= 'Health Check';
+
+	// Filters
+	const SETTINGS_FIELD_FILTER_PAGE_LINK = 'Flatten Page Links';
 	
 	const SETTINGS_FIELD_ROLE_CAPABILITIES = 'Capabilities';
 	const SETTINGS_DESCRIPTION_ROLE_CAPABILITIES = 'The capabilities the REST API should have';

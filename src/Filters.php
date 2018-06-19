@@ -10,6 +10,9 @@ use AxelSpringer\WP\Mango\Helpers;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
 
+use function AxelSpringer\WP\Mango\leadingslashit;
+use function AxelSpringer\WP\Mango\unparse_url;
+
 /**
  * Actions Class
  *
@@ -63,6 +66,9 @@ class Filters
         $this->add_filters( array( 'preview_post_link' ), array( &$this, 'preview_post_link' ) );
         $this->add_filters( array( 'post_link' ), array( &$this, 'post_link' ), 99, 2 );
         $this->add_filters( array( 'query_vars' ), array( &$this, 'add_query_vars' ) );
+            
+        // filter page links
+        $this->add_filters( array( 'page_link' ), array( &$this, 'flatten_page_link' ), 99, 2 );
     }
 
     /**
@@ -74,6 +80,24 @@ class Filters
             $query_vars[] = 'health';
         }
         return $query_vars;
+    }
+
+    /**
+     * Flatten page links
+     * 
+     */
+    public function flatten_page_link( $url, $page )
+    {
+        if ( empty( $this->setup->options['wp_mango_filters_page_link'] ) )
+            return $url; // just return if not preview, or if not admin
+        
+        $url = parse_url( $url ); // should be replaced
+        if ( $url === false ) { // break on wrong url
+            return $url;
+        }
+
+        $url['path'] = end( explode( '/', $url['path'] ) );
+        return leadingslashit( unparse_url( $url ) );
     }
 
     /**

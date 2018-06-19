@@ -185,6 +185,26 @@ class Settings extends AbstractSettings {
         'option_group' => $this->page
       );
       $customizer = new Field( $args );
+
+      // filters
+      $args      = array(
+        'id'          => 'wp_mango_filters',
+        'title'       => __( Translate::SETTINGS_SECTION_FILTERS, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
+        'description' => 'Filters to enable for certain features.',
+      );
+      $resources = new Section( $args );
+
+      $args       = array(
+        'id'           => 'wp_mango_filters_page_link',
+        'title'        => __( Translate::SETTINGS_FIELD_FILTER_PAGE_LINK, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_filters',
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => $this->page
+      );
+      $filter_page_link = new Field( $args );
     }
 
     /**
