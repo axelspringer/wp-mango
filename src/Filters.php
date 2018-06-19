@@ -97,7 +97,14 @@ class Filters
         }
 
         // we try to elimnate the path of the url
-        $url['path'] = end( explode( '/', $url['path'] ) );
+        $parts = array_filter( explode( '/', $url['path'] ) );
+        $url['path'] = end( $parts );
+
+        // if function exists
+        if ( function_exists( '\pll_current_language' ) ) { // if there is polylang
+            $url['path'] = implode( "/", array( array_shift( $parts ), $url['path'] ) );
+        }
+
         return leadingslashit( unparse_url( $url ) );
     }
 
