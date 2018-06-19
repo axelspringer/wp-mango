@@ -148,7 +148,7 @@ class Settings extends AbstractSettings {
         'page'         => $this->page,
         'section'      => 'wp_mango_preview',
         'option_group' => $this->page,
-        'description'  => __( 'This is the preview url (e.g. https://example.com/preview/%id%)' ),
+        'description'  => __( 'This is the preview url (e.g. https://example.com/preview/%post_type%/%id%)' ),
         'type'         => 'text', // text, textarea, password, checkbox
         'option_group' => Plugin::SETTINGS_PAGE,
       );

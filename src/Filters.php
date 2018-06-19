@@ -143,10 +143,13 @@ class Filters
             ||  empty( $this->setup->options['wp_mango_preview_url'] ) ) {
                 return $url; // just return the link
             }
+
+        exit(print_r($post));
         
         // rules to replace
         $rewrite_rules = [
-            '%id%'      => $post->ID
+            '%post_type%'   => $post->post_type,
+            '%id%'          => $post->ID
         ];
         $url = $this->setup->options['wp_mango_preview_url'];
 
