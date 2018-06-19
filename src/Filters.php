@@ -144,12 +144,12 @@ class Filters
                 return $url; // just return the link
             }
         
+        exit(var_dump($post));
+        
         // rules to replace
         $rewrite_rules = [
-            '%lang%'    => $post->lang,
             '%id%'      => $post->ID
         ];
-
         $url = $this->setup->options['wp_mango_preview_url'];
 
         // replace in preview
