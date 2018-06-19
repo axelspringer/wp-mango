@@ -144,8 +144,6 @@ class Filters
                 return $url; // just return the link
             }
         
-        exit(var_dump($post));
-        
         // rules to replace
         $rewrite_rules = [
             '%id%'      => $post->ID
