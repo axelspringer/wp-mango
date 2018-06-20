@@ -8,6 +8,7 @@ use AxelSpringer\WP\Mango\Routes\Customizer;
 use AxelSpringer\WP\Mango\Routes\Nav;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
+use AxelSpringer\WP\Mango\Routes\Media;
 
 /**
  * Actions Class
@@ -133,7 +134,10 @@ class Actions
 			$this->routes->configure( new Customizer() );
 
         if ( $this->setup->options['wp_mango_posts'] ) // posts
-		    $this->routes->configure( new Posts() );
+            $this->routes->configure( new Posts() );
+            
+        if ( $this->setup->options['wp_mango_rest_media'] ) // media
+            $this->routes->configure( new Media() );
     }
 
     /**

@@ -211,6 +211,18 @@ class Settings extends AbstractSettings {
       );
       $nav  = new Field( $args );
 
+      $args = array(
+        'id'           => 'wp_mango_rest_media',
+        'title'        => __( Translate::SETTINGS_FIELD_MEDIA, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $media  = new Field( $args );
+
       $args       = array(
         'id'           => 'wp_mango_customizer',
         'title'        => __( Translate::SETTINGS_FIELD_CUSTOMIZER, Plugin::TEXT_DOMAIN ),

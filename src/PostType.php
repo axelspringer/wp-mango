@@ -10,7 +10,7 @@ abstract class PostType
 {
     const Post          = 'post';
     const Page          = 'page';
-    const Attachement   = 'attachment';
+    const Attachment    = 'attachment';
     const Revision      = 'revision';
     const NavigationMenuItem = 'nav_menu_item';
     const CustomCSS     = 'custom_css';

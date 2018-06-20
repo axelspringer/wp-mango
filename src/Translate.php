@@ -25,6 +25,8 @@ abstract class Translate
 	const SETTINGS_FIELD_PREVIEW_URL    = 'Preview URL';
 	const SETTINGS_FIELD_HEALTH			= 'Health Check';
 	const SETTINGS_FIELD_PREVIEW 		= 'Preview';
+	const SETTINGS_FIELD_MEDIA	 		= 'Media';
+
 	const SETTINGS_FIELD_PREVIEW_SAMPLE			= 'Example';
 	const SETTINGS_FIELD_PREVIEW_SAMPLE_URL		= 'Example Url';
 

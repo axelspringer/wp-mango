@@ -121,7 +121,7 @@ class Posts implements Route {
 			'post_status' => $post_status
 		);
 
-		$query = new \WP_Query( $query_args );
+		$query = new \WP_Query( $query_args ); // query
 
 		if ( empty ( $query->posts ) || ! sizeof( $query->posts ) > 1 ) {
 			return $this->routes->response_404(); // this will return null
