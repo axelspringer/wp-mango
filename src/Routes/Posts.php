@@ -3,6 +3,7 @@
 namespace AxelSpringer\WP\Mango\Routes;
 
 use AxelSpringer\WP\Mango\PostStatus;
+use AxelSpringer\WP\Mango\PostType;
 
 /**
  * Class Posts
@@ -45,7 +46,7 @@ class Posts implements Route {
 		$query_params = array();
 
 		$query_params['preview'] = array(
-			'description'       => __( 'Query for posts with a different status then publish' ),
+			'description'       => __( 'Query for posts that have a different status then publish.' ),
 			'type'              => 'array',
 			'items'             => array( 
 				'type' => 'boolean',
@@ -62,14 +63,6 @@ class Posts implements Route {
 			'sanitize_callback' => '\wp_parse_slug_list',
 		);
 
-		$query_params['type'] = array(
-			'description'       => __( 'Type of the post to limit the request to.' ),
-			'type'              => 'array',
-			'items'             => array( 
-				'type' => 'string',
-			)
-		);
-
 		return apply_filters( 'wp_mango_rest_posts_collection_params', $query_params, $post_type );
 	}
 
@@ -79,52 +72,32 @@ class Posts implements Route {
 	 */
 	public function get_items( \WP_REST_Request $request )
 	{
-		$query_args = array(
-			'post_status' 	=> array( PostStatus::Publish ), // default is only published
-			'post_type'		=> 'any'
+		// parameters to allows for request
+		$args = array(
+			'preview',
+			'slug'
 		);
 
-		$registered = $this->get_collection_params();
+		// by default only show publish
+		$request['status'] = PostStatus::Publish;
 
-		$parameter_mappings = array(
-			'type' 	 	=> 'post_type',
-			'slug'      => 'post_name__in',
-		);
+		// if there is a preview requested, extend visibility
+		if ( $request['preview'] == 'true' ) { // merge preview
+			$request['status'] = implode(',', array( $request['status'], PostStatus::Draft, PostStatus::AutoDraft, PostStatus::Future ) );
+		}
 
-		// map request parameters to query args
-		foreach ( $parameter_mappings as $api_param => $wp_param ) {
-			if ( isset( $registered[ $api_param ], $request[ $api_param ] ) ) {
-				$query_args[ $wp_param ] = $request[ $api_param ];
+		// create post controller and hijack
+		$ctrl	= new \WP_REST_Posts_Controller( PostType::Any );
+		$req 	= new \WP_REST_Request();
+
+		foreach ( $args as $arg ) { // filter args to args
+			if ( isset( $request[ $arg ] ) ) {
+				$req->set_param( $arg, $request[ $arg ] );
 			}
 		}
 
-		if ( $request['preview'] == 'true' ) { // merge preview
-			$query_args['post_status'] = array_merge(
-				$query_args['post_status'],
-				array( 'draft', 'pending', 'future' )
-			);
-		}
-
-		$query = new \WP_Query( $query_args );
-
-		if ( empty ( $query->posts ) || sizeof( $query->posts ) > 1 ) {
-			return $this->routes->response_404(); // if there is no post, or the post is not singular
-		}
-
-		// $post = array_shift( $query->posts );
-		$response = new \WP_REST_Response();
-		$response = rest_ensure_response( array_map( function( $post ) {
-			return $this->get_post( $post->ID );
-		}, $query->posts ) );
-
-		return $response;
-
-		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
-		$request = new \WP_REST_Request();
-		$request->set_param( 'id', $query->post->ID );
-
-		// allow to filter mango post
-		return apply_filters( 'wp_mango_posts', $ctrl->get_item( $request ) );
+		// filter mango rest posts
+		return apply_filters( 'wp_mango_rest_posts', $ctrl->get_items( $req ) );
 	}
 
 	/**
@@ -134,7 +107,7 @@ class Posts implements Route {
 	 *
 	 * @return \WP_REST_Response
 	 */
-	public function get_item( \WP_REST_Request $request ): \WP_REST_Response
+	public function get_item( \WP_REST_Request $request )
 	{
 		$post_status = array( 'publish' ); // by default only show publish
 
@@ -150,15 +123,16 @@ class Posts implements Route {
 
 		$query = new \WP_Query( $query_args );
 
-		if ( empty ( $query->posts ) || ! $query->is_singular )
+		if ( empty ( $query->posts ) || ! sizeof( $query->posts ) > 1 ) {
 			return $this->routes->response_404(); // this will return null
+		}
 
 		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
 		$request = new \WP_REST_Request();
 		$request->set_param( 'id', $query->post->ID );
 
 		// allow to filter mango post
-		return apply_filters( 'wp_mango_post', $ctrl->get_item( $request ) );
+		return apply_filters( 'wp_mango_rest_post', $ctrl->get_item( $request ) );
 	}
 
 	/**
@@ -178,30 +152,8 @@ class Posts implements Route {
 
 		$ctrl    = new \WP_REST_Posts_Controller( $post->post_type );
 		$request = new \WP_REST_Request();
-		//$_GET['_embed'] = true;
 		$request->set_param( 'id', $post->ID );
 
 		return apply_filters( 'wp_mango_routes_posts_post_by_permalink', $ctrl->get_item( $request ) );
-	}
-
-	/**
-	 * Get the post, if the ID is valid.
-	 *
-	 * @since 4.7.2
-	 *
-	 * @param int $id Supplied ID.
-	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
-	 */
-	public function get_post( $id )
-	{
-		$error = new WP_Error( 'rest_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
-		if ( (int) $id <= 0 ) {
-			return $error;
-		}
-		$post = get_post( (int) $id );
-		if ( empty( $post ) || empty( $post->ID ) || $this->post_type !== $post->post_type ) {
-			return $error;
-		}
-		return $post;
 	}
 }
