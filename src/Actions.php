@@ -83,6 +83,7 @@ class Actions
      * 
      */
     public function get_health() {
+        // check if we should to a health check
         if ( ! $this->setup->options['wp_mango_health_check'] )
             return;
 
@@ -115,7 +116,8 @@ class Actions
     }
 
     /**
-     * Rest api init
+     * Hook to initialize the REST API
+     * 
      */
     public function rest_api_init() {
         if ( ! $this->setup->options['wp_mango_enabled'] ) // if not enabled

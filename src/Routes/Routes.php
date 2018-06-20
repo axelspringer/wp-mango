@@ -47,14 +47,15 @@ class Routes {
 	 *
 	 * @return bool
 	 */
-	public function get( string $route, callable $callback ): bool {
+	public function get( string $route, callable $callback, array $args = [] ): bool {
 		return register_rest_route(
 			Plugin::NAMESPACE,
 			$route,
 			[
-				'methods'             => \WP_REST_Server::READABLE,
-				'callback'            => $callback,
-				'permission_callback' => [ $this, 'permissions_check' ]
+				'methods'             	=> \WP_REST_Server::READABLE,
+				'callback'            	=> $callback,
+				'permission_callback' 	=> [ $this, 'permissions_check' ],
+				'args'					=> $args
 			]
 		);
 	}

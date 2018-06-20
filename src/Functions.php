@@ -57,3 +57,11 @@ function unparse_url( $parsed_url )
     $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : ''; 
     return "$scheme$user$pass$host$port$path$query$fragment"; 
 } 
+
+/**
+ * Sanitize preview argument
+ * 
+ */
+function wp_parse_preview( $preview ) {
+    return $preview === 'true';
+}

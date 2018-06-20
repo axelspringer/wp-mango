@@ -105,6 +105,7 @@ class Filters
             $url['path'] = implode( "/", array( array_shift( $parts ), $url['path'] ) );
         }
 
+        // return url wuth
         return leadingslashit( unparse_url( $url ) );
     }
 
