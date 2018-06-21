@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Mango WordPress Plugin
+Plugin Name: WP Mango
 Plugin URI: http://wordpress.org/extend/plugins/mango/
-Description: A companion WordPress plugin to support Mango.
+Description: A companion WordPress plugin for Mango.
 Author: Axel Springer SE
-Version: 0.0.2
+Version: 1.0.10-dev
 Author URI: https://www.axelspringer.de
 Network: True
 Text Domain: mango-plugin
@@ -25,9 +25,9 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	$loader->addPsr4( 'AxelSpringer\\WP\\Mango\\', __DIR__ . '/src' );
 }
 
-use \AxelSpringer\WP\Mango\__WP__ as WP;
-use \AxelSpringer\WP\Mango\__PLUGIN__ as Plugin;
-use \AxelSpringer\WP\Mango\Plugin as Mango;
+use \AxelSpringer\WP\Mango\WP;
+use \AxelSpringer\WP\Mango\Plugin;
+use \AxelSpringer\WP\Mango\Mango;
 
 // bootstrap
 if ( ! defined( WP::VERSION ) )
@@ -40,10 +40,10 @@ if ( ! defined( WP::SLUG ) )
     define( WP::SLUG, Plugin::SLUG );
 
 // activation
-register_activation_hook( __FILE__, '\AxelSpringer\WP\Mango\Plugin::activation' );
+register_activation_hook( __FILE__, '\AxelSpringer\WP\Mango\Mango::activation' );
 
 // deactivation
-register_deactivation_hook( __FILE__, '\AxelSpringer\WP\Mango\Plugin::deactivation' );
+register_deactivation_hook( __FILE__, '\AxelSpringer\WP\Mango\Mango::deactivation' );
 
 // run
 global $wp_mango; // this bootstraps the plugin, and provides a global accessible helper

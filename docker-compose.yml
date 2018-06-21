@@ -27,6 +27,7 @@ services:
     volumes:
       - ./:/var/www/html/wp-content/plugins/mango-plugin
       - ./wp-content/plugins/wp-bootstrap:/var/www/html/wp-content/plugins/wp-bootstrap
+      - ./wp-content/plugins/polylang:/var/www/html/wp-content/plugins/polylang
     depends_on:
       - maria
       - adminer
