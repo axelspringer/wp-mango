@@ -140,7 +140,7 @@ class Actions
         if ( $this->setup->options['wp_mango_rest_media'] ) // media
             $this->routes->configure( new Media() );
 
-        if ( $this->setup->options['wp_mango_rest_items'] ) // media
+        if ( $this->setup->options['wp_mango_rest_slugs'] ) // media
             $this->routes->configure( new Items() );
     }
 
