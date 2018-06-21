@@ -83,7 +83,7 @@ class Posts implements Route {
 
 		// if there is a preview requested, extend visibility
 		if ( $request['preview'] == 'true' ) { // merge preview
-			$request['status'] = implode(',', array( $request['status'], PostStatus::Draft, PostStatus::AutoDraft, PostStatus::Future ) );
+			$request['status'] = implode( ',', array( $request['status'], PostStatus::Draft, PostStatus::AutoDraft, PostStatus::Future ) );
 		}
 
 		// create post controller and hijack

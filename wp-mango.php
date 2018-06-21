@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: Mango WordPress Plugin
+Plugin Name: WP Mango
 Plugin URI: http://wordpress.org/extend/plugins/mango/
-Description: A companion WordPress plugin to support Mango.
+Description: A companion WordPress plugin for Mango.
 Author: Axel Springer SE
-Version: 0.0.2
+Version: 1.0.10-dev
 Author URI: https://www.axelspringer.de
 Network: True
 Text Domain: mango-plugin
