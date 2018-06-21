@@ -51,6 +51,19 @@ class Actions
         add_action( 'template_redirect', array( &$this, 'get_health' ), 0 ); // set highest priority
         // redirect on /wp-admin/
         add_action( 'template_redirect', [&$this, 'redirect_url'] );
+
+        add_action( 'init', function () {
+            register_post_type( 'acme_product',
+              array(
+                'labels' => array(
+                  'name' => __( 'Products' ),
+                  'singular_name' => __( 'Product' )
+                ),
+                'public' => true,
+                'has_archive' => true,
+              )
+            );
+          } );
     }
 
     /**

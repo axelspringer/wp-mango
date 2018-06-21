@@ -200,18 +200,6 @@ class Settings extends AbstractSettings {
       $posts  = new Field( $args );
 
       $args = array(
-        'id'           => 'wp_mango_nav',
-        'title'        => __( Translate::SETTINGS_FIELD_NAVIGATION, Plugin::TEXT_DOMAIN ),
-        'page'         => $this->page,
-        'section'      => 'wp_mango_resources',
-        'option_group' => $this->page,
-        'description'  => __( '' ),
-        'type'         => 'checkbox', // text, textarea, password, checkbox
-        'option_group' => Plugin::SETTINGS_PAGE,
-      );
-      $nav  = new Field( $args );
-
-      $args = array(
         'id'           => 'wp_mango_rest_media',
         'title'        => __( Translate::SETTINGS_FIELD_MEDIA, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
@@ -222,6 +210,18 @@ class Settings extends AbstractSettings {
         'option_group' => Plugin::SETTINGS_PAGE,
       );
       $media  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_nav',
+        'title'        => __( Translate::SETTINGS_FIELD_NAVIGATION, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $nav  = new Field( $args );
 
       $args       = array(
         'id'           => 'wp_mango_customizer',

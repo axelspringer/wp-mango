@@ -78,26 +78,61 @@ class Posts implements Route {
 			'slug'
 		);
 
-		// by default only show publish
-		$request['status'] = PostStatus::Publish;
+		// map parameters
+		$parameter_mappings = array(
+			'author'         => 'author__in',
+			'author_exclude' => 'author__not_in',
+			'exclude'        => 'post__not_in',
+			'include'        => 'post__in',
+			'menu_order'     => 'menu_order',
+			'offset'         => 'offset',
+			'order'          => 'order',
+			'orderby'        => 'orderby',
+			'page'           => 'paged',
+			'parent'         => 'post_parent__in',
+			'parent_exclude' => 'post_parent__not_in',
+			'search'         => 's',
+			'slug'           => 'post_name__in',
+			'status'         => 'post_status',
+		);
+
+		$status = array( // extended status
+			PostStatus::Draft,
+			PostStatus::AutoDraft,
+			PostStatus::Future
+		);
+
+		$query_args = [
+			'post_type' => 'any', // fetch for all
+			'status'	=> array( PostStatus::Publish )
+		];
+
+		// map available parameters
+		foreach ( $parameter_mappings as $api_param => $wp_param ) {
+			$query_args[ $wp_param ] = $request[ $api_param ];
+		}
 
 		// if there is a preview requested, extend visibility
 		if ( $request['preview'] == 'true' ) { // merge preview
-			$request['status'] = implode( ',', array( $request['status'], PostStatus::Draft, PostStatus::AutoDraft, PostStatus::Future ) );
+			$query_args['status'] = array_merge( array( $query_args['status'] ), $status );
 		}
 
-		// create post controller and hijack
-		$ctrl	= new \WP_REST_Posts_Controller( PostType::Any );
-		$req 	= new \WP_REST_Request();
+		$query 	= new \WP_Query( $query_args ); // query
+		$posts 	= [];
 
-		foreach ( $args as $arg ) { // filter args to args
-			if ( isset( $request[ $arg ] ) ) {
-				$req->set_param( $arg, $request[ $arg ] );
-			}
+		// mimic post fetch
+		foreach ( $query->posts as $post ) {
+			$ctrl		= new \WP_REST_Posts_Controller( $post->post_type );
+			$data    	= $ctrl->prepare_item_for_response( $post, $request );
+			$posts[] 	= $ctrl->prepare_response_for_collection( $data );
 		}
+
+		// response
+		$response	= new \WP_REST_Response();
+		$response->set_data( $posts );
 
 		// filter mango rest posts
-		return apply_filters( 'wp_mango_rest_posts', $ctrl->get_items( $req ) );
+		return apply_filters( 'wp_mango_rest_posts', $response );
 	}
 
 	/**
@@ -109,23 +144,30 @@ class Posts implements Route {
 	 */
 	public function get_item( \WP_REST_Request $request )
 	{
-		$post_status = array( 'publish' ); // by default only show publish
+		$query_args = array(
+			// 'post_name__in'	=> array( 'test' ),
+			'p'         	=> $request->get_param( 'id' ), // ID of a page, post, or custom type
+			'post_type' 	=> 'any', // find all posts
+			'post_status' 	=> array( PostStatus::Publish )
+		);
+
+		$status = array( // extended status
+			PostStatus::Draft,
+			PostStatus::AutoDraft,
+			PostStatus::Future
+		);
 
 		if ( $request['preview'] == 'true' ) { // use query parameter to indicate preview
-			$post_status = array_merge( $post_status, array( 'draft', 'pending', 'future' ) );
+			$query_args['post_status'] = array_merge( $query_args['post_status'], $status );
 		}
-
-		$query_args = array(
-			'p'         => $request->get_param( 'id' ), // ID of a page, post, or custom type
-			'post_type' => 'any', // find all posts
-			'post_status' => $post_status
-		);
 
 		$query = new \WP_Query( $query_args ); // query
 
 		if ( empty ( $query->posts ) || ! sizeof( $query->posts ) > 1 ) {
 			return $this->routes->response_404(); // this will return null
 		}
+
+		exit( print_r( $query ) );
 
 		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
 		$request = new \WP_REST_Request();
