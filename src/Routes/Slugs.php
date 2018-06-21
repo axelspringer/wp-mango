@@ -6,15 +6,15 @@ use AxelSpringer\WP\Mango\PostStatus;
 use AxelSpringer\WP\Mango\PostType;
 
 /**
- * Class Items
+ * Class Slugs
  *
  * @package Wp\Mango\Routes
  */
-class Items implements Route {
+class Slugs implements Route {
 	/**
 	 * @var string
 	 */
-	protected $base = 'items';
+	protected $base = 'slugs';
 
 	/**
 	 * @var Routes
