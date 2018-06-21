@@ -9,6 +9,7 @@ use AxelSpringer\WP\Mango\Routes\Nav;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
 use AxelSpringer\WP\Mango\Routes\Media;
+use AxelSpringer\WP\Mango\Routes\Items;
 
 /**
  * Actions Class
@@ -51,19 +52,6 @@ class Actions
         add_action( 'template_redirect', array( &$this, 'get_health' ), 0 ); // set highest priority
         // redirect on /wp-admin/
         add_action( 'template_redirect', [&$this, 'redirect_url'] );
-
-        add_action( 'init', function () {
-            register_post_type( 'acme_product',
-              array(
-                'labels' => array(
-                  'name' => __( 'Products' ),
-                  'singular_name' => __( 'Product' )
-                ),
-                'public' => true,
-                'has_archive' => true,
-              )
-            );
-          } );
     }
 
     /**
@@ -151,6 +139,9 @@ class Actions
             
         if ( $this->setup->options['wp_mango_rest_media'] ) // media
             $this->routes->configure( new Media() );
+
+        if ( $this->setup->options['wp_mango_rest_items'] ) // media
+            $this->routes->configure( new Items() );
     }
 
     /**

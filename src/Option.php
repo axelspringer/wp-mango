@@ -20,6 +20,7 @@ abstract class Option
     const WP_MANGO_PREVIEW_SAMPLE   = false;
     const WP_MANGO_PREVIEW_SAMPLE_URL = false;
     const WP_MANGO_REST_MEDIA       = false;
+    const WP_MANGO_REST_ITEMS       = false;
 
     // Filters
     const WP_MANGO_FILTERS_PAGE_LINK = false;
