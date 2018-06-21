@@ -9,7 +9,7 @@ use AxelSpringer\WP\Mango\Routes\Nav;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
 use AxelSpringer\WP\Mango\Routes\Media;
-use AxelSpringer\WP\Mango\Routes\Items;
+use AxelSpringer\WP\Mango\Routes\Slugs;
 
 /**
  * Actions Class
@@ -141,7 +141,7 @@ class Actions
             $this->routes->configure( new Media() );
 
         if ( $this->setup->options['wp_mango_rest_slugs'] ) // media
-            $this->routes->configure( new Items() );
+            $this->routes->configure( new Slugs() );
     }
 
     /**
