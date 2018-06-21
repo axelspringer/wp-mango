@@ -66,8 +66,6 @@ class Posts implements Route {
 			return $this->routes->response_404(); // this will return null
 		}
 
-		exit( print_r( $query ) );
-
 		$ctrl    = new \WP_REST_Posts_Controller( $query->post->post_type );
 		$request = new \WP_REST_Request();
 		$request->set_param( 'id', $query->post->ID );
