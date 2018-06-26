@@ -54,7 +54,8 @@ function unparse_url( $parsed_url )
     $pass     = ($user || $pass) ? "$pass@" : ''; 
     $path     = isset($parsed_url['path']) ? $parsed_url['path'] : ''; 
     $query    = isset($parsed_url['query']) ? '?' . $parsed_url['query'] : ''; 
-    $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : ''; 
+    $fragment = isset($parsed_url['fragment']) ? '#' . $parsed_url['fragment'] : '';
+    
     return "$scheme$user$pass$host$port$path$query$fragment"; 
 } 
 

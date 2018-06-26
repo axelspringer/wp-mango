@@ -256,8 +256,8 @@ class Settings extends AbstractSettings {
       $resources = new Section( $args );
 
       $args       = array(
-        'id'           => 'wp_mango_filters_page_link',
-        'title'        => __( Translate::SETTINGS_FIELD_FILTER_PAGE_LINK, Plugin::TEXT_DOMAIN ),
+        'id'           => 'wp_mango_filters_category_parent',
+        'title'        => __( Translate::SETTINGS_FIELD_FILTER_CATEGORY_PARENT, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_filters',
         'description'  => __( '' ),

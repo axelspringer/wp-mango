@@ -32,7 +32,7 @@ abstract class Translate
 	const SETTINGS_FIELD_PREVIEW_SAMPLE_URL		= 'Example Url';
 
 	// Filters
-	const SETTINGS_FIELD_FILTER_PAGE_LINK = 'Flatten Page Links';
+	const SETTINGS_FIELD_FILTER_CATEGORY_PARENT = 'Filter Category Parent';
 	
 	const SETTINGS_FIELD_ROLE_CAPABILITIES = 'Capabilities';
 	const SETTINGS_DESCRIPTION_ROLE_CAPABILITIES = 'The capabilities the REST API should have';

@@ -179,6 +179,12 @@ class Filters
         $category_base = 'category';
         $base = get_option( 'category_base', false );
 
+        if ( ! empty( $this->setup->options['wp_mango_filters_category_parent'] ) ) {
+            global $wp_rewrite;
+            $category_nicename = $cat->slug;
+            $url = str_replace( '%category%', $category_nicename, $url );
+        }        
+
         if ( $base === false || $base === '' ) {
             return $this->dynamic_relative_url( str_replace( '/' . $category_base, '', $url ), null );
         }

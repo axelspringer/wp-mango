@@ -23,7 +23,7 @@ abstract class Option
     const WP_MANGO_REST_SLUGS       = false;
 
     // Filters
-    const WP_MANGO_FILTERS_PAGE_LINK = false;
+    const WP_MANGO_FILTERS_CATEGORY_PARENT = false;
 
     // Role
     const WP_MANGO_ROLE             = Role::EDITOR;
