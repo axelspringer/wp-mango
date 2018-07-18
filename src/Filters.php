@@ -69,6 +69,8 @@ class Filters
             
         // filter page links
         $this->add_filters( array( 'page_link' ), array( &$this, 'flatten_page_link' ), 99, 2 );
+		
+		$this->add_filters( array( 'wp_insert_post_data' ), array( &$this, 'remove_site_url_from_href' ), 99, 2 );
     }
 
     /**
@@ -107,6 +109,19 @@ class Filters
 
         // return url wuth
         return leadingslashit( unparse_url( $url ) );
+    }
+	
+	/**
+     * Removes the site URL from the href properties inside the post content
+     */
+    public function remove_site_url_from_href( $data , $postarr ) {
+        if ( isset( $data ) && isset( $data['post_content'] ) ) {
+            $regex = 'href=\"' . get_site_url();
+
+            $data['post_content'] = str_replace( $regex, 'href=\"', $data['post_content'] );
+        }
+
+        return $data;
     }
 
     /**
