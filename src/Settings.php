@@ -34,7 +34,7 @@ class Settings extends AbstractSettings {
 
       $args    = array(
         'id'           => 'wp_mango_enabled',
-        'title'        => __( Translate::SETTINGS_FIELD_ENABLED, Plugin::TEXT_DOMAIN ),
+        'title'        => __( Translate::SETTINGS_FIELD_ENABLE, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,
         'section'      => 'wp_mango_general',
         'description'  => __( '' ),
@@ -121,7 +121,31 @@ class Settings extends AbstractSettings {
       );
       $credentials_secret = new Field( $args );
 
-      // credentials
+      $args = array(
+        'id'           => 'wp_mango_jwt',
+        'title'        => __( Translate::SETTINGS_FIELD_JWT, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_credentials',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $jwt  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_jwt_secret_key',
+        'title'        => __( Translate::SETTINGS_FIELD_JWT_SECRET_KEY, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_credentials',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'text', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $jwt_secret_key  = new Field( $args );
+
+      // preview
       $args        = array(
         'id'          => 'wp_mango_preview',
         'title'       => __( Translate::SETTINGS_SECTION_PREVIEW, Plugin::TEXT_DOMAIN ),

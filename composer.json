@@ -24,7 +24,8 @@
     ],
     "require": {
         "composer/installers": "~1.0.6",
-        "axelspringer/wp-bootstrap": "dev-master"
+        "axelspringer/wp-bootstrap": "dev-master",
+        "firebase/php-jwt": "^5.0"
     },
     "scripts": {
         "post-install-cmd": ["composer dump-autoload"],

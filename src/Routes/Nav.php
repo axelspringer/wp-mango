@@ -16,10 +16,10 @@ class Nav implements Route {
 	 * @param Routes $routes
 	 */
 	public function configure( Routes $routes ) {
-		$routes->get( $this->base . '/menus/(?P<id>\d+)', [ $this, 'get_nav_menu' ] );
-		$routes->get( $this->base . '/items/(?P<id>\d+)', [ $this, 'get_nav_menu_items' ] );
-		$routes->get( $this->base . '/locations', [ $this, 'get_nav_menu_locations' ] );
-		$routes->get( $this->base . '/locations/(?P<name>[a-zA-Z0-9\_]+)', [ $this, 'get_nav_menu_location' ] );
+		$routes->create( $this->base . '/menus/(?P<id>\d+)', [ $this, 'get_nav_menu' ] );
+		$routes->create( $this->base . '/items/(?P<id>\d+)', [ $this, 'get_nav_menu_items' ] );
+		$routes->create( $this->base . '/locations', [ $this, 'get_nav_menu_locations' ] );
+		$routes->create( $this->base . '/locations/(?P<name>[a-zA-Z0-9\_]+)', [ $this, 'get_nav_menu_location' ] );
 	}
 
 	/**

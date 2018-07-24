@@ -30,7 +30,7 @@ class Slugs implements Route {
 		$this->routes = $routes;
 
 		// most general route
-		$routes->get( $this->base, [ $this, 'get_items' ], $this->get_collection_params() );
+		$routes->create( $this->base, [ $this, 'get_items' ], $this->get_collection_params() );
 	}
 
 	/**

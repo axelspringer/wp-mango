@@ -23,7 +23,7 @@ class Customizer implements Route {
 	 * @param Routes $routes
 	 */
 	public function configure( Routes $routes ) {
-		$routes->get( $this->base, [ $this, 'get_settings' ] );
+		$routes->create( $this->base, [ $this, 'get_settings' ] );
 	}
 
 	/**

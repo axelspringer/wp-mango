@@ -31,7 +31,7 @@ class Routes {
 		$this->credentials = $credentials;
 		$this->setup = $setup;
 
-		add_filter( 'rest_authentication_errors', [ &$this, 'permissions_check' ] );
+		// add_filter( 'rest_authentication_errors', [ &$this, 'permissions_check' ] );
 	}
 
 	/**
@@ -42,19 +42,26 @@ class Routes {
 	}
 
 	/**
+	 * Construct an endpoint by method
+	 * 
+	 * @param string $method
 	 * @param string $route
 	 * @param callable $callback
 	 *
 	 * @return bool
 	 */
-	public function get( string $route, callable $callback, array $args = [] ): bool {
+	public function create( string $route, callable $callback, array $args = [], string $method = \WP_REST_Server::READABLE, bool $permission_check = true ): bool {
+		// set callback for permissions
+		$permission_callback = $permission_check ? array( &$this, 'permissions_check' ) : array();
+		
+		// register rest route
 		return register_rest_route(
 			Plugin::NAMESPACE,
 			$route,
 			[
-				'methods'             	=> \WP_REST_Server::READABLE,
+				'methods'             	=> $method,
 				'callback'            	=> $callback,
-				'permission_callback' 	=> [ $this, 'permissions_check' ],
+				'permission_callback' 	=> $permission_callback,
 				'args'					=> $args
 			]
 		);
@@ -82,6 +89,16 @@ class Routes {
 	 * @return bool|\WP_Error
 	 */
 	public function permissions_check() {
+		// use authorization header
+		$auth = isset( $_SERVER['HTTP_AUTHORIZATION'] ) ? $_SERVER['HTTP_AUTHORIZATION'] : false;
+
+		// check for redirect bearer
+		$auth = ! $auth && isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] : $auth;
+
+		// verify the Bearer format
+		list( $jwt ) = sscanf( $auth, 'Bearer %s' );
+
+		// set WordPress current user
 		$nonce  = $_SERVER['HTTP_X_WP_NONCE'] ?? null;
 		$token  = $_SERVER['HTTP_X_MANGO_TOKEN'] ?? null;
 		$secret = $_SERVER['HTTP_X_MANGO_SECRET'] ?? null;
@@ -95,6 +112,21 @@ class Routes {
 		// bypass if logged in user
 		if ( ! is_null( $current_user ) && $current_user->ID !== 0 )
 			return true;
+
+		// bypass to auth
+		if ( $jwt
+			&& ! empty( $this->setup->options['wp_mango_jwt'] )
+			&& ! empty( $this->setup->options['wp_mango_jwt_secret_key'] ) ) {
+			// valid a token
+			$valid = wp_mango_validate_token( $jwt, $this->setup->options['wp_mango_jwt_secret_key'] );	
+		
+			// if this is not valid
+			if ( is_wp_error( $valid ) ) {
+            	return false;
+			}
+
+			return $valid;
+		}
 
 		if ( !$this->credentials->is_valid_token( $token )
 		     || !$this->credentials->is_valid_secret( $secret ) ) {

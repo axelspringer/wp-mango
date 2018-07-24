@@ -34,6 +34,10 @@ abstract class Option
     // Credentials
     const WP_MANGO_CREDENTIALS_TOKEN    = null;
     const WP_MANGO_CREDENTIALS_SECRET   = null;
+
+    // JWT
+    const WP_MANGO_JWT              = false;
+    const WP_MANGO_JWT_SECRET_KEY   = false;
 }
 
 

@@ -5,6 +5,7 @@ namespace AxelSpringer\WP\Mango;
 use AxelSpringer\WP\Mango\Services\Credentials;
 use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 use AxelSpringer\WP\Mango\Routes\Customizer;
+use AxelSpringer\WP\Mango\Routes\JWT;
 use AxelSpringer\WP\Mango\Routes\Nav;
 use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
@@ -128,6 +129,7 @@ class Actions
         // configure routes
         $this->routes = new Routes( $this->credentials, $this->setup );
 
+        // here after rest endpoints are configured
         if ( $this->setup->options['wp_mango_nav'] ) // navigation
             $this->routes->configure( new Nav() );
 
@@ -142,6 +144,9 @@ class Actions
 
         if ( $this->setup->options['wp_mango_rest_slugs'] ) // media
             $this->routes->configure( new Slugs() );
+
+        if ( $this->setup->options['wp_mango_jwt'] ) // jwt
+            $this->routes->configure( new JWT( $this->setup ) );
     }
 
     /**

@@ -30,7 +30,7 @@ class Media implements Route {
 		$this->routes = $routes;
 
 		// specific legacy routes
-		$routes->get( $this->base . '/(?P<id>\d+)', [ $this, 'get_item' ] );
+		$routes->create( $this->base . '/(?P<id>\d+)', [ $this, 'get_item' ] );
 	}
 
 	/**

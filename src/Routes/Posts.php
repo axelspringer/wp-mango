@@ -30,8 +30,8 @@ class Posts implements Route {
 		$this->routes = $routes;
 
 		// specific legacy routes
-		$routes->get( $this->base . '/post-by-permalink', [ $this, 'post_by_permalink' ] );
-		$routes->get( $this->base . '/post/(?P<id>\d+)', [ $this, 'get_item' ] );
+		$routes->create( $this->base . '/post-by-permalink', [ $this, 'post_by_permalink' ] );
+		$routes->create( $this->base . '/post/(?P<id>\d+)', [ $this, 'get_item' ] );
 	}
 
 	/**

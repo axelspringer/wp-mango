@@ -14,7 +14,7 @@ abstract class Translate
 	const SETTINGS_SECTION_PREVIEW    	= 'Preview';
 	const SETTINGS_SECTION_FILTERS		= 'Filters';
 	
-	const SETTINGS_FIELD_ENABLED        = 'Enabled';
+	const SETTINGS_FIELD_ENABLE         = 'Enable';
 	const SETTINGS_FIELD_TOKEN          = 'Token';
 	const SETTINGS_FIELD_SECRET         = 'Secret';
 	const SETTINGS_FIELD_NAVIGATION     = 'Navigation';
@@ -27,6 +27,10 @@ abstract class Translate
 	const SETTINGS_FIELD_PREVIEW 		= 'Preview';
 	const SETTINGS_FIELD_MEDIA	 		= 'Media';
 	const SETTINGS_FIELD_SLUGS	 		= 'Slugs';
+
+	// JWT
+	const SETTINGS_FIELD_JWT				= 'JWT';
+	const SETTINGS_FIELD_JWT_SECRET_KEY 	= 'JWT Secret Key';
 
 	const SETTINGS_FIELD_PREVIEW_SAMPLE			= 'Example';
 	const SETTINGS_FIELD_PREVIEW_SAMPLE_URL		= 'Example Url';
