@@ -3,8 +3,6 @@
 namespace AxelSpringer\WP\Mango\Routes;
 use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 
-use \Firebase\JWT\JWT as FJWT;
-
 /**
  * Class JWT
  * 
@@ -184,82 +182,4 @@ class JWT implements Route {
 		);
 
 	}
-}
-
-/**
- * Validate a token
- * 
- * @return \WP_Error | bool
- */
-function wp_mango_validate_token( $token, $secret_key )
-{
-	// try to decode the token
-	try {
-		$token = FJWT::decode( $token, $secret_key, array( 'HS256' ) );
-
-		// validate token
-		if ( $token->iss != get_bloginfo('url') ) {
-			/** The iss do not match, return error */
-			return new WP_Error(
-				'wp_mango_bad_iss',
-				__( 'The iss do not match with this server', 'wp-mango' ),
-				array(
-					'status' => 403,
-				)
-			);
-		}
-
-		if ( !isset( $token->data->user->id ) ) {
-			return new WP_Error(
-				'wp_mango_bad_request',
-				__( 'User ID not found in the token', 'wp-mango' ),
-				array(
-					'status' => 400,
-				)
-			);
-		}
-
-		// resolve authentication
-		return true;
-	} catch( \Exception $e ) {
-		// catch execption
-		return new \WP_Error(
-			'wp_mango_token_invalid',
-			$e->getMessage(),
-			array(
-				'status' => 403,
-			)
-		);
-	}
-
-	// answer with not valid by default
-	return false;
-}
-
-/**
- * Generate a token
- * 
- * @return string
- */
-function wp_mango_generate_token( $issued, $secret_key, $id = JWT::ANONYMOUS )
-{
-	// apply filters
-	$expire = apply_filters( 'wp_mango_token_expire', $issued + (MINUTE_IN_SECONDS * 5), $issued );
-	$before = apply_filters( 'wp_mango_token_before', $issued, $issued );
-
-	// construct token
-	$token = array(
-		'iss' => get_bloginfo( 'url' ),
-		'iat' => $issued,
-		'nbf' => $before,
-		'exp' => $expire,
-		'data' => array(
-			'user' => array(
-				'id' => $id
-			),
-		),
-	);
-
-	// create an return token
-	return FJWT::encode( apply_filters( 'wp_mango_token_before_sign', $token, $user), $secret_key );
 }

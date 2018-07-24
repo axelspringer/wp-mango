@@ -54,6 +54,7 @@ class Filters
     {
         // use setup
         $this->setup = $setup;
+
         // adding post url filters
         if ( $this->setup->options['wp_mango_rewrite_url'] &&
             ! ( is_admin() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {
@@ -69,7 +70,8 @@ class Filters
             
         // filter page links
         $this->add_filters( array( 'page_link' ), array( &$this, 'flatten_page_link' ), 99, 2 );
-		
+        
+        // filter post enter data
 		$this->add_filters( array( 'wp_insert_post_data' ), array( &$this, 'remove_site_url_from_href' ), 99, 2 );
     }
 
@@ -166,10 +168,18 @@ class Filters
             '%id%'          => $post->ID
         ];
         $url = $this->setup->options['wp_mango_preview_url'];
+        $current_user = wp_get_current_user();
 
         // replace in preview
         foreach( $rewrite_rules as $rule => $replace ) {
             $url = str_replace( $rule, $replace, $url );
+        }
+
+        if ( ! empty( $this->setup->options['wp_mango_jwt'] )
+            &&  ! empty( $this->setup->options['wp_mango_jwt_secret_key'] )
+            && $current_user !== 0 ) {
+                $token = wp_mango_generate_token( time(), $this->setup->options['wp_mango_jwt_secret_key'], $current_user->ID );
+                return $url . '?token=' . $token;
         }
  
         return $url; // just return url
