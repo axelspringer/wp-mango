@@ -42,6 +42,8 @@ class Permalink implements Route {
 	 */
 	public function get_by_permalink( \WP_REST_Request $request ): \WP_REST_Response
 	{
+		global $polylang;
+
         // try to resolve a post
 		$post_id = url_to_postid( $request->get_param( 'permalink' ) );
 
@@ -52,6 +54,13 @@ class Permalink implements Route {
 			$request->set_param( 'id', $post->ID );
 
 			return apply_filters( 'wp_mango_rest_permalink', $ctrl->get_item( $request ) );
+		}
+
+		// trick polylang
+		if ( isset( $polylang ) && $request->get_param( 'lang' ) ) {
+			$query = new \WP_Query();                                                                     
+        	$query->set( 'lang', $request->get_param( 'lang' ) );                                                                  
+        	$polylang->filters->set_tax_query_lang( $query );  
 		}
 
         // try to resolve a category as fallback
