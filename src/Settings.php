@@ -212,6 +212,18 @@ class Settings extends AbstractSettings {
       $resources = new Section( $args );
 
       $args = array(
+        'id'           => 'wp_mango_rest_permalink',
+        'title'        => __( Translate::SETTINGS_FIELD_PERMALINK, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_resources',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $posts  = new Field( $args );
+
+      $args = array(
         'id'           => 'wp_mango_posts',
         'title'        => __( Translate::SETTINGS_FIELD_POSTS, Plugin::TEXT_DOMAIN ),
         'page'         => $this->page,

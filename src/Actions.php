@@ -11,6 +11,7 @@ use AxelSpringer\WP\Mango\Routes\Posts;
 use AxelSpringer\WP\Mango\Routes\Routes;
 use AxelSpringer\WP\Mango\Routes\Media;
 use AxelSpringer\WP\Mango\Routes\Slugs;
+use AxelSpringer\WP\Mango\Routes\Permalink;
 
 /**
  * Actions Class
@@ -147,6 +148,9 @@ class Actions
 
         if ( $this->setup->options['wp_mango_jwt'] ) // jwt
             $this->routes->configure( new JWT( $this->setup ) );
+
+        if ( $this->setup->options['wp_mango_rest_permalink'] ) // resolve permalinks
+            $this->routes->configure( new Permalink() );
     }
 
     /**

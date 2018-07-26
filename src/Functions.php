@@ -2,7 +2,6 @@
 
 namespace AxelSpringer\WP\Mango;
 
-
 use \Firebase\JWT\JWT as FJWT;
 
 /**

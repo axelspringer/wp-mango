@@ -32,6 +32,7 @@ class Posts implements Route {
 		// specific legacy routes
 		$routes->create( $this->base . '/post-by-permalink', [ $this, 'post_by_permalink' ] );
 		$routes->create( $this->base . '/post/(?P<id>\d+)', [ $this, 'get_item' ] );
+		$routes->create( $this->base . '/permalink', [ &$this, 'get_by_permalink' ] );
 	}
 
 	/**
@@ -72,6 +73,40 @@ class Posts implements Route {
 
 		// allow to filter mango post
 		return apply_filters( 'wp_mango_rest_post', $ctrl->get_item( $request ) );
+	}
+
+	/**
+	 * Discovers content by a provided permalink
+	 * 
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return \WP_REST_Response
+	 */
+	public function get_by_permalink( \WP_REST_Request $request ): \WP_REST_Response
+	{
+		$post_id = url_to_postid( $request->get_param( 'permalink' ) );
+
+		if ( $post_id !== 0 ) { // if we found a belonging post
+			$post = get_post( $post_id );
+
+			$ctrl    = new \WP_REST_Posts_Controller( $post->post_type );
+			$request->set_param( 'id', $post->ID );
+
+			return apply_filters( 'wp_mango_routes_posts_post_by_permalink', $ctrl->get_item( $request ) );
+		}
+
+		$tax_id = get_category_by_path( $request->get_param( 'permalink' ), false );
+
+		if ( is_null( $tax_id ) ) {
+			return $this->routes->response_404();
+		}
+
+		$ctrl = new \WP_REST_Terms_Controller( $tax_id->taxonomy );
+		$request = new \WP_REST_Request();
+		$request->set_param( 'id', $tax_id->term_id );
+		// $request->set_param( 'slug', $tax_id->slug );
+
+		return apply_filters( 'wp_mango_routes_posts_post_by_permalink', $ctrl->get_item( $request ) );
 	}
 
 	/**

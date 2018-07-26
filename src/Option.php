@@ -21,6 +21,7 @@ abstract class Option
     const WP_MANGO_PREVIEW_SAMPLE_URL = false;
     const WP_MANGO_REST_MEDIA       = false;
     const WP_MANGO_REST_SLUGS       = false;
+    const WP_MANGO_REST_PERMALINK  = false;
 
     // Filters
     const WP_MANGO_FILTERS_CATEGORY_PARENT = false;

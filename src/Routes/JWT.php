@@ -3,6 +3,8 @@
 namespace AxelSpringer\WP\Mango\Routes;
 use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 
+use function AxelSpringer\WP\Mango\wp_mango_validate_token;
+
 /**
  * Class JWT
  * 

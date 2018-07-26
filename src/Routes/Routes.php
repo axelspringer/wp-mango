@@ -6,6 +6,8 @@ use AxelSpringer\WP\Bootstrap\Plugin\Setup;
 use AxelSpringer\WP\Mango\Services\Credentials;
 use AxelSpringer\WP\Mango\Plugin;
 
+use function AxelSpringer\WP\Mango\wp_mango_validate_token;
+
 /**
  * Class Routes
  *
