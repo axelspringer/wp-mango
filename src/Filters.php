@@ -12,6 +12,7 @@ use AxelSpringer\WP\Mango\Routes\Routes;
 
 use function AxelSpringer\WP\Mango\leadingslashit;
 use function AxelSpringer\WP\Mango\unparse_url;
+use function AxelSpringer\WP\Mango\wp_mango_generate_token;
 
 /**
  * Actions Class
