@@ -13,6 +13,7 @@ abstract class Translate
 	const SETTINGS_SECTION_RESOURCES    = 'REST';
 	const SETTINGS_SECTION_PREVIEW    	= 'Preview';
 	const SETTINGS_SECTION_FILTERS		= 'Filters';
+	const SETTINGS_SECTION_SEARCH		= 'Search';
 	
 	const SETTINGS_FIELD_ENABLE         = 'Enable';
 	const SETTINGS_FIELD_TOKEN          = 'Token';
@@ -28,6 +29,9 @@ abstract class Translate
 	const SETTINGS_FIELD_MEDIA	 		= 'Media';
 	const SETTINGS_FIELD_SLUGS	 		= 'Slugs';
 	const SETTINGS_FIELD_PERMALINK		= 'Resolve';
+
+	// Search
+	const SETTINGS_FIELD_SEARCH_RESULTS_PER_PAGE = 'Results per Page';
 
 	// JWT
 	const SETTINGS_FIELD_JWT				= 'JWT';

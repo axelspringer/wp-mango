@@ -12,6 +12,7 @@ use AxelSpringer\WP\Mango\Routes\Routes;
 use AxelSpringer\WP\Mango\Routes\Media;
 use AxelSpringer\WP\Mango\Routes\Slugs;
 use AxelSpringer\WP\Mango\Routes\Permalink;
+use AxelSpringer\WP\Mango\Routes\Search;
 
 /**
  * Actions Class
@@ -143,7 +144,7 @@ class Actions
         if ( $this->setup->options['wp_mango_rest_media'] ) // media
             $this->routes->configure( new Media() );
 
-        if ( $this->setup->options['wp_mango_rest_slugs'] ) // media
+        if ( $this->setup->options['wp_mango_rest_slugs'] ) // slugs
             $this->routes->configure( new Slugs() );
 
         if ( $this->setup->options['wp_mango_jwt'] ) // jwt
@@ -151,6 +152,9 @@ class Actions
 
         if ( $this->setup->options['wp_mango_rest_permalink'] ) // resolve permalinks
             $this->routes->configure( new Permalink() );
+        
+        if ( $this->setup->options['wp_mango_search'] ) // search
+            $this->routes->configure( new Search( $this->setup ) );
     }
 
     /**

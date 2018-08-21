@@ -202,6 +202,39 @@ class Settings extends AbstractSettings {
       );
       $sample_url  = new Field( $args );
 
+      // search
+      $args      = array(
+        'id'          => 'wp_mango_search',
+        'title'       => __( Translate::SETTINGS_SECTION_SEARCH, Plugin::TEXT_DOMAIN ),
+        'page'        => Plugin::SETTINGS_PAGE,
+        'description' => 'These are all the settings relevant for the search.',
+      );
+      $search = new Section( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_search',
+        'title'        => __( Translate::SETTINGS_FIELD_ENABLE, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_search',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'checkbox', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $search_enable  = new Field( $args );
+
+      $args = array(
+        'id'           => 'wp_mango_search_results_per_page',
+        'title'        => __( Translate::SETTINGS_FIELD_SEARCH_RESULTS_PER_PAGE, Plugin::TEXT_DOMAIN ),
+        'page'         => $this->page,
+        'section'      => 'wp_mango_search',
+        'option_group' => $this->page,
+        'description'  => __( '' ),
+        'type'         => 'text', // text, textarea, password, checkbox
+        'option_group' => Plugin::SETTINGS_PAGE,
+      );
+      $search_results_per_page  = new Field( $args );
+
       // resources
       $args      = array(
         'id'          => 'wp_mango_resources',
