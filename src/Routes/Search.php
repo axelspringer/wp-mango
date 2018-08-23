@@ -57,6 +57,32 @@ class Search implements Route {
 	}
 
 	/**
+	 * Cleanup query string
+	 * 
+	 * 
+	 * @param string $query
+	 */
+	public function query_cleanup( string $query )
+	{
+		if ( !$query ) return;
+		
+		// Strip HTML Tags
+		$clean = strip_tags( $query );
+		// Clean up things like &amp;
+		$clean = html_entity_decode( $clear );
+		// Strip out any url-encoded stuff
+		$clean = urldecode( $clear );
+		// Replace non-AlNum characters with space
+		$clean = preg_replace( '/[^A-Za-z0-9]/', ' ', $clear );
+		// Replace Multiple spaces with single space
+		$clean = preg_replace( '/ +/', ' ', $clear );
+		// Trim the string of leading/trailing space
+		$clean = trim( $clear );
+		
+		return $clean;
+	}
+
+	/**
 	 * Search Wordpress content by provided query 
 	 * 
 	 * @param \WP_REST_Request $request
@@ -73,7 +99,7 @@ class Search implements Route {
 		$page = $request->get_param ( 'page' );
 
 		// curate search
-		$search = implode( ' ', explode( '+', trim( urldecode( $search ) ) ) );
+		$search = implode( ' ', explode( '+', $this->query_cleanup( $search ) ) );
 
 		// results per page
 		$page = intval( $page );
@@ -91,7 +117,8 @@ class Search implements Route {
             'paged'          => $page,
             'post_type'      => 'any',
             'posts_per_page' => $results_per_page,
-            's'              => $search
+			's'              => $search,
+			'lang' 		 	 => $request->get_param ( 'lang' )
 		) );
 
 		// prepare the items
