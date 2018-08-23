@@ -69,15 +69,15 @@ class Search implements Route {
 		// Strip HTML Tags
 		$clean = strip_tags( $query );
 		// Clean up things like &amp;
-		$clean = html_entity_decode( $clear );
+		$clean = html_entity_decode( $clean );
 		// Strip out any url-encoded stuff
-		$clean = urldecode( $clear );
+		$clean = urldecode( $clean );
 		// Replace non-AlNum characters with space
-		$clean = preg_replace( '/[^A-Za-z0-9]/', ' ', $clear );
+		$clean = preg_replace( '/[^A-Za-z0-9]/', ' ', $clean );
 		// Replace Multiple spaces with single space
-		$clean = preg_replace( '/ +/', ' ', $clear );
+		$clean = preg_replace( '/ +/', ' ', $clean );
 		// Trim the string of leading/trailing space
-		$clean = trim( $clear );
+		$clean = trim( $clean );
 		
 		return $clean;
 	}
