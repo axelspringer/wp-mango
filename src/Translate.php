@@ -31,7 +31,8 @@ abstract class Translate
 	const SETTINGS_FIELD_PERMALINK		= 'Resolve';
 
 	// Search
-	const SETTINGS_FIELD_SEARCH_RESULTS_PER_PAGE = 'Results per Page';
+	const SETTINGS_FIELD_SEARCH_RESULTS_PER_PAGE 	= 'Results per Page';
+	const SETTINGS_FIELD_SEARCH_EXCLUDE_POST_TYPE 	= 'Exclude Posts Types';
 
 	// JWT
 	const SETTINGS_FIELD_JWT				= 'JWT';

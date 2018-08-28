@@ -104,8 +104,15 @@ class Search implements Route {
 		// results per page
 		$page = intval( $page );
 		$page = !$page ? 1 : $page;
+		$post_types = get_post_types( $args );
+		$post_types_exclude = $this->setup->options['wp_mango_search_exclude_post_types'];
 		$results_per_page = (int) $this->setup->options['wp_mango_search_results_per_page'];
 		$results_per_page = ! $results_per_page ? $this->results_per_page : $results_per_page;
+
+		// filter for post types
+		if ( ! empty( $post_types_exclude ) ) {
+			$post_types = array_diff( $post_types, $post_types_exclude );
+		}
 
 		// set query
 		$result->per_page = $results_per_page;
@@ -115,7 +122,7 @@ class Search implements Route {
 		$query  = new \WP_Query();
         $items = $query->query ( array (
             'paged'          => $page,
-            'post_type'      => 'any',
+            'post_type'      => $post_types,
             'posts_per_page' => $results_per_page,
 			's'              => $search,
 			'lang' 		 	 => $request->get_param ( 'lang' )

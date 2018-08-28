@@ -235,6 +235,18 @@ class Settings extends AbstractSettings {
       );
       $search_results_per_page  = new Field( $args );
 
+      $args = array(
+        'id'	        => 'wp_mango_search_exclude_post_types',
+        'title'			=> __( Translate::SETTINGS_FIELD_SEARCH_EXCLUDE_POST_TYPE, Plugin::TEXT_DOMAIN ),
+        'page'			=> $this->page,
+        'section'	    => 'wp_mango_search',
+        'description'   => __( '' ),
+        'type'		    => 'text', // text, textarea, password, checkbox
+        'multi'			=> true,
+        'option_group'	=> $this->page,
+      );
+      $search_exclude_post_types = new Field( $args );
+
       // resources
       $args      = array(
         'id'          => 'wp_mango_resources',
