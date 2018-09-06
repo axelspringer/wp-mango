@@ -53,7 +53,7 @@ class Search implements Route {
 		$this->routes = $routes;
 
 		// specify search route
-		$routes->create( $this->base . '/(?P<search>[a-zA-Z0-9\%+]*)[/]*(?P<page>\d*)', array( &$this, 'get_search' ) );
+		$routes->create( $this->base . '/(?P<search>[a-zA-Z0-9äöüß,.„“‘’’”…&#áéíóúàèìòùãõ\+\-\%+]*)[/]*(?P<page>\d*)', array( &$this, 'get_search' ) );
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Search implements Route {
 		// Strip out any url-encoded stuff
 		$clean = urldecode( $clean );
 		// Replace non-AlNum characters with space
-		$clean = preg_replace( '/[^A-Za-z0-9äöüß,.„“‘’’”…&#áéíóúàèìòùãõ\+\-]/', ' ', $clean );
+		$clean = preg_replace( '/[^a-zA-Z0-9äöüß,.„“‘’’”…&#áéíóúàèìòùãõ\+\-]/', ' ', $clean );
 		// Replace Multiple spaces with single space
 		$clean = preg_replace( '/ +/', ' ', $clean );
 		// Trim the string of leading/trailing space
