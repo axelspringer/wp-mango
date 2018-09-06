@@ -73,7 +73,7 @@ class Search implements Route {
 		// Strip out any url-encoded stuff
 		$clean = urldecode( $clean );
 		// Replace non-AlNum characters with space
-		$clean = preg_replace( '/[^A-Za-z0-9äöüß\+\-]/', ' ', $clean );
+		$clean = preg_replace( '/[^A-Za-z0-9äöüß,.„“‘’’”…&#\+\-]/', ' ', $clean );
 		// Replace Multiple spaces with single space
 		$clean = preg_replace( '/ +/', ' ', $clean );
 		// Trim the string of leading/trailing space
