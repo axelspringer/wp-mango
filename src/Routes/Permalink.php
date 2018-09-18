@@ -45,7 +45,11 @@ class Permalink implements Route {
 		global $polylang;
 
         // try to resolve a post
-		$post_id = url_to_postid( $request->get_param( 'permalink' ) );
+		$post_id = 0;
+		
+		if ( $request->get_param( 'permalink' ) ) {
+			$post_id = url_to_postid( parse_url( $request->get_param( 'permalink' ), PHP_URL_PATH ) );
+		}
 
 		if ( $post_id !== 0 ) { // if we found a belonging post
 			$post = get_post( $post_id );
