@@ -72,6 +72,8 @@ class Search implements Route {
 		$clean = html_entity_decode( $clean );
 		// Strip out any url-encoded stuff
 		$clean = urldecode( $clean );
+		// Remove all hash symbols
+		$clean = preg_replace( '/\#/', '', $clean );
 		// Replace Multiple spaces with single space
 		$clean = preg_replace( '/ +/', ' ', $clean );
 		// Trim the string of leading/trailing space
