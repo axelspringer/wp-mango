@@ -1,4 +1,4 @@
-# WP Mango
+# WP Mango 
 
 A companion plugin for [Mango](https://github.com/axelspringer/mango), which extends the WordPress REST API.
 
