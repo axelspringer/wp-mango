@@ -112,7 +112,7 @@ class Actions
         if ( empty( $this->setup->options['wp_mango_redirect'] ) )
             return;
 
-        if ( ! ( is_admin() || is_feed() || ( defined('DOING_AJAX') && DOING_AJAX ) ) ) {
+        if ( ! ( is_admin() || is_feed() || ( defined('DOING_AJAX') && DOING_AJAX ) || is_preview() ) ) {
             wp_redirect( get_admin_url() );
             die;
         }
